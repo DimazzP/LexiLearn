@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">LexiLearn</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login_screen">LoginScreen</string>
+</resources>
