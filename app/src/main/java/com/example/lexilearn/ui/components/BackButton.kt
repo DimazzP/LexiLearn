@@ -22,9 +22,8 @@ fun BackButton(
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     Card(
-        shape = CircleShape,
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
-        modifier = modifier.size(48.dp)
+        modifier = modifier.size(34.dp)
     ) {
         IconButton(onClick = onClick) {
             Icon(
