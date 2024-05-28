@@ -1,90 +1,172 @@
 package com.example.lexilearn.ui.views.pQuiz.pRead
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import android.util.Log
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.boundsInParent
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.lexilearn.ui.components.AnswerCard
-import com.example.lexilearn.ui.components.CardQuiz
-import com.example.lexilearn.ui.components.GradientQuiz
-import com.example.lexilearn.ui.components.HorizontalLine
-import com.example.lexilearn.ui.components.MyCard
-import com.example.lexilearn.ui.components.MyShadowCard
+import com.example.lexilearn.ui.components.*
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.ctextWhite
+import com.mohamedrejeb.compose.dnd.rememberDragAndDropState
 
 @Composable
-fun ReadScreen(navController: NavController) {
-    val readViewModel: ReadViewModel = viewModel()
-    GradientQuiz(navController = navController, headerText = "Learn to Read") {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End,
-            ) {
-                Text(
-                    "Level: 3",
-                    modifier = Modifier.padding(22.dp),
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 18.sp,
-                    color = ctextWhite
-                )
-            }
-            MyShadowCard(modifier = Modifier
-                .padding()
-                .fillMaxWidth()) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "The dog ",
-                        color = ctextBlack,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    CardQuiz {
-                        Text(
-                            text = "?",
-                            color = ctextWhite,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
-                    }
-                }
-            }
-            HorizontalLine()
-            val listData = listOf("chases", "watch", "run")
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)
-            ) {
-                items(listData) { item ->
-                    AnswerCard(item = item)
-                }
-            }
-        }
-    }
+fun ReadScreen(navController: NavController){
+    val dragAndDropState = rememberDragAndDropState()
+
 }
+
+//@OptIn(ExperimentalLayoutApi::class)
+//@Composable
+//fun ReadScreen(navController: NavController) {
+//    val readViewModel: ReadViewModel = viewModel()
+//    var draggedItem by remember { mutableStateOf<String?>(null) }
+//
+//    // State to keep track of the positions of CardQuiz
+//    val cardQuizPositions = remember { mutableStateOf(listOf<Offset>()) }
+//
+//    // State to keep track of dropped items in CardQuiz
+//    val cardQuizItems = remember { mutableStateOf(listOf<String?>(null, null)) }
+//
+//    GradientQuiz(navController = navController, headerText = "Learn to Read") {
+//        Box(
+//            modifier = Modifier.fillMaxSize()
+//        ) {
+//            Column(
+//                modifier = Modifier.fillMaxSize(),
+//                horizontalAlignment = Alignment.CenterHorizontally,
+//            ) {
+//                Row(
+//                    modifier = Modifier.fillMaxWidth(),
+//                    horizontalArrangement = Arrangement.End,
+//                ) {
+//                    Text(
+//                        "Level: 3",
+//                        modifier = Modifier.padding(22.dp),
+//                        fontWeight = FontWeight.SemiBold,
+//                        fontSize = 18.sp,
+//                        color = ctextWhite
+//                    )
+//                }
+//                MyShadowCard(
+//                    modifier = Modifier
+//                        .padding()
+//                        .fillMaxWidth()
+//                        .fillMaxHeight(0.3f)
+//                ) {
+//                    FlowRow(
+//                        modifier = Modifier.padding(12.dp),
+//                    ) {
+//                        val cardQuiz1Bounds = remember { mutableStateOf<Offset?>(null) }
+//                        val cardQuiz2Bounds = remember { mutableStateOf<Offset?>(null) }
+//
+//                        Text(
+//                            text = "The dog ",
+//                            color = ctextBlack,
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.Bold
+//                        )
+//                        CardQuiz(
+//                            modifier = Modifier
+//                                .onGloballyPositioned { coordinates ->
+//                                    cardQuiz1Bounds.value = coordinates.boundsInParent().center
+//                                }
+//                                .pointerInput(Unit) {
+//                                    detectDragGestures(
+//                                        onDrag = { change, _ -> change.consume() },
+//                                        onDragStart = {},
+//                                        onDragEnd = {
+//                                            cardQuiz1Bounds?.let { bounds ->
+//                                                if (draggedItem != null) {
+//                                                    cardQuizItems.value = cardQuizItems.value.toMutableList().apply {
+//                                                        this[0] = draggedItem
+//                                                    }
+//                                                    draggedItem = null
+//                                                }
+//                                            }
+//                                        }
+//                                    )
+//                                }
+//                        ) {
+//                            Text(
+//                                text = cardQuizItems.value[0] ?: "?",
+//                                color = ctextWhite,
+//                                fontWeight = FontWeight.Bold,
+//                                textAlign = TextAlign.Center,
+//                                modifier = Modifier.fillMaxWidth()
+//                            )
+//                        }
+//                        Text(
+//                            text = " and cat playing",
+//                            color = ctextBlack,
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.Bold
+//                        )
+//                        CardQuiz(
+//                            modifier = Modifier
+//                                .onGloballyPositioned { coordinates ->
+//                                    cardQuiz2Bounds.value = coordinates.boundsInParent().center
+//                                }
+//                                .pointerInput(Unit) {
+//                                    detectDragGestures(
+//                                        onDrag = { change, _ -> change.consume() },
+//                                        onDragStart = {},
+//                                        onDragEnd = {
+//                                            cardQuiz2Bounds?.let { bounds ->
+//                                                if (draggedItem != null) {
+//                                                    cardQuizItems.value = cardQuizItems.value.toMutableList().apply {
+//                                                        this[1] = draggedItem
+//                                                    }
+//                                                    draggedItem = null
+//                                                }
+//                                            }
+//                                        }
+//                                    )
+//                                }
+//                        ) {
+//                            Text(
+//                                text = cardQuizItems.value[1] ?: "?",
+//                                color = ctextWhite,
+//                                fontWeight = FontWeight.Bold,
+//                                textAlign = TextAlign.Center,
+//                                modifier = Modifier.fillMaxWidth()
+//                            )
+//                        }
+//                        Text(
+//                            text = " ball",
+//                            color = ctextBlack,
+//                            fontSize = 20.sp,
+//                            fontWeight = FontWeight.Bold
+//                        )
+//                    }
+//
+//                }
+//                Spacer(modifier = Modifier.height(30.dp))
+//                HorizontalLine()
+//                Spacer(modifier = Modifier.height(40.dp))
+//                val listData = listOf("chases", "watch", "run")
+//                listData.forEach {
+//                    DraggableAnswerCard(
+//                        item = it,
+//                        onDragStart = { draggedItem = it },
+//                        onDragEnd = {
+//                        },
+//                    )
+//                    Spacer(modifier = Modifier.height(20.dp))
+//                }
+//            }
+//        }
+//    }
+//}
