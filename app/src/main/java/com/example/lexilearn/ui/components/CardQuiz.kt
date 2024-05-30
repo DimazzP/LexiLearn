@@ -26,13 +26,35 @@ fun CardQuiz(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
         modifier = modifier
             .padding(2.dp)
             .width(80.dp)
-            .height(30.dp).border(2.dp, ctextBlack, RoundedCornerShape(16.dp))
+            .height(30.dp)
+            .border(2.dp, ctextBlack, RoundedCornerShape(16.dp))
     ) {
         Box(
-            contentAlignment = Alignment.Center, // Memastikan konten berada di tengah
-            modifier = Modifier.fillMaxSize() // Pastikan Box menggunakan ukuran penuh
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
             content()
         }
     }
 }
+
+//@Composable
+//fun CardQuiz(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
+//    Card(
+//        colors = CardDefaults.cardColors(
+//            containerColor = cprimary,
+//        ),
+//        shape = RoundedCornerShape(16.dp),
+//        modifier = modifier
+//            .padding(2.dp)
+//            .width(80.dp)
+//            .height(30.dp).border(2.dp, ctextBlack, RoundedCornerShape(16.dp))
+//    ) {
+//        Box(
+//            contentAlignment = Alignment.Center, // Memastikan konten berada di tengah
+//            modifier = Modifier.fillMaxSize() // Pastikan Box menggunakan ukuran penuh
+//        ) {
+//            content()
+//        }
+//    }
+//}

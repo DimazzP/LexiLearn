@@ -69,7 +69,15 @@ dependencies {
     implementation("com.google.accompanist:accompanist-flowlayout:0.24.9-beta")
     implementation("com.google.accompanist:accompanist-placeholder:0.24.13-rc")
     implementation("com.google.accompanist:accompanist-navigation-material:0.24.13-rc")
-    implementation("com.mohamedrejeb.dnd:compose-dnd:0.2.0")
+//    implementation("com.mohamedrejeb.dnd:compose-dnd:0.2.0")
+//    implementation("cn.tinyhai.compose:dragdrop:0.3.1")
+//    implementation("com.microsoft.device.dualscreen:draganddrop:1.0.0-alpha01")
+
+//    implementation("androidx.compose.ui:ui-draggable:1.2.0-alpha03")
+
+    implementation("androidx.media3:media3-common:1.3.1")
+    implementation("androidx.draganddrop:draganddrop:1.0.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 //    implementation("com.patrykandpatrick.vico:compose:2.0.0-alpha.20")
 //    implementation("com.patrykandpatrick.vico:compose-m2:2.0.0-alpha.20")
 //    implementation("com.patrykandpatrick.vico:compose-m3:2.0.0-alpha.20")
