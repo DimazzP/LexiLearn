@@ -78,11 +78,7 @@ dependencies {
     implementation("androidx.media3:media3-common:1.3.1")
     implementation("androidx.draganddrop:draganddrop:1.0.0")
     implementation("com.google.code.gson:gson:2.10.1")
-//    implementation("com.patrykandpatrick.vico:compose:2.0.0-alpha.20")
-//    implementation("com.patrykandpatrick.vico:compose-m2:2.0.0-alpha.20")
-//    implementation("com.patrykandpatrick.vico:compose-m3:2.0.0-alpha.20")
-//    implementation("com.patrykandpatrick.vico:core:2.0.0-alpha.20")
-//    implementation("com.patrykandpatrick.vico:views:2.0.0-alpha.20")
+//    implementation("com.idapgroup:autosizetext-compose:0.3.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

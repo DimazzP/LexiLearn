@@ -22,8 +22,6 @@ import androidx.compose.ui.zIndex
 import com.example.lexilearn.ui.theme.cprimary
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.cwhite
-import kotlin.math.roundToInt
-import androidx.compose.runtime.*
 
 @Composable
 fun DraggableAnswerCard(
@@ -40,22 +38,20 @@ fun DraggableAnswerCard(
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .padding(2.dp)
-                .width(280.dp)
-                .height(60.dp)
                 .border(2.dp, cprimary, RoundedCornerShape(16.dp))
         ) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
-                Text(
+                AutoSizeText(
                     text = item,
                     textAlign = TextAlign.Center,
                     color = ctextBlack,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 12.dp)
+                        .padding(vertical = 4.dp)
                 )
             }
         }

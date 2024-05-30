@@ -104,9 +104,8 @@ fun AutoSizeText(
 
         var currentFontIndex = 0
 
-        while (shouldShrink(text, combinedTextStyle, maxLines)) {
-            combinedTextStyle =
-                combinedTextStyle.copy(fontSize = fontSizes[++currentFontIndex])
+        while (shouldShrink(text, combinedTextStyle, maxLines) && currentFontIndex < fontSizes.size - 1) {
+            combinedTextStyle = combinedTextStyle.copy(fontSize = fontSizes[++currentFontIndex])
         }
 
         Text(

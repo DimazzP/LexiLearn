@@ -30,6 +30,7 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.mimeTypes
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.input.pointer.consumeAllChanges
@@ -48,17 +49,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.lexilearn.domain.models.ModelWords
+import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.CardQuiz
 import com.example.lexilearn.ui.components.DraggableAnswerCard
 import com.example.lexilearn.ui.components.GradientQuiz
 import com.example.lexilearn.ui.components.HorizontalLine
 import com.example.lexilearn.ui.components.MyShadowCard
+import com.example.lexilearn.ui.theme.csecondary
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.ctextWhite
 import kotlin.math.roundToInt
@@ -72,6 +76,11 @@ fun ReadScreen(navController: NavController) {
     var box2Rect by remember { mutableStateOf(Rect.Zero) }
     var cardQuizText by remember { mutableStateOf("?") } // State to store the text for CardQuiz
     val listAnswer = remember { mutableStateListOf("chases") }
+    var cardWidth by remember { mutableStateOf(280.dp) } // Default width
+    var cardHeight by remember { mutableStateOf(60.dp) } // Default height
+
+    val minWidtR = 90.dp
+    val minHeightR = 40.dp
 //    , "watch", "run"
 
 
@@ -115,6 +124,8 @@ fun ReadScreen(navController: NavController) {
                             if(it.type){
                                 CardQuiz(
                                     modifier = Modifier
+                                        .width(minWidtR)
+                                        .height(minHeightR)
                                         .onGloballyPositioned { coordinates ->
                                             box2Rect = coordinates.boundsInWindow()
                                         }
@@ -128,12 +139,16 @@ fun ReadScreen(navController: NavController) {
                                     )
                                 }
                             }else{
-                                Text(
-                                    text = it.data,
-                                    color = ctextBlack,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
+                                Box(modifier = Modifier.align(Alignment.CenterVertically)){
+                                    Text(
+                                        text = it.data,
+                                        color = ctextBlack,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        textAlign = TextAlign.Center,
+                                    )
+                                }
+
                             }
                         }
                     }
@@ -159,18 +174,30 @@ fun ReadScreen(navController: NavController) {
                                 .onGloballyPositioned {
                                     box1Rect = it.boundsInWindow()
                                 }
+                                .width(cardWidth)
+                                .height(cardHeight)
                                 .pointerInput(Unit) {
                                     detectDragGestures(
                                         onDrag = { change, dragAmount ->
                                             change.consume()
                                             offsetX1 += dragAmount.x
                                             offsetY1 += dragAmount.y
+                                            cardWidth = minWidtR
+                                            cardHeight = minHeightR
                                         },
                                         onDragEnd = {
                                             if (box1Rect.overlaps(box2Rect)) {
                                                 cardQuizText = item
-                                                listAnswer.removeAt(index)
+                                                cardWidth = minWidtR
+                                                cardHeight = minHeightR
+                                                val difX = box1Rect.topLeft.x - offsetX1
+                                                val difY = box1Rect.topLeft.y - offsetY1
+                                                offsetX1 = box2Rect.topLeft.x - difX
+                                                offsetY1 = box2Rect.topLeft.y - difY
+
                                             } else {
+                                                cardWidth = 280.dp
+                                                cardHeight = 60.dp
                                                 offsetX1 = 0f
                                                 offsetY1 = 0f
                                             }

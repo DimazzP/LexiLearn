@@ -25,8 +25,6 @@ fun CardQuiz(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
             .padding(2.dp)
-            .width(80.dp)
-            .height(30.dp)
             .border(2.dp, ctextBlack, RoundedCornerShape(16.dp))
     ) {
         Box(
