@@ -34,7 +34,7 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ReadScreen(navController: NavController) {
-    var listAnswer =
+    val listAnswer =
         remember {
             mutableStateListOf(
                 ModelAnswerRead(1, "chases"),
@@ -44,53 +44,51 @@ fun ReadScreen(navController: NavController) {
         }
     var rectColumnAnswer by remember { mutableStateOf(Rect.Zero) }
 
-    var cardWidth = remember {
+    val cardWidth = remember {
         mutableStateMapOf<Int, Dp>()
     }
 
-    var cardHeight = remember {
+    val cardHeight = remember {
         mutableStateMapOf<Int, Dp>()
     }
 
     val minWidtR = 90.dp
     val minHeightR = 40.dp
 
-    var dataQuiz by remember {
-        mutableStateOf(
-            mutableListOf(
-                ModelWords(1, false, "The dog ", showCard = false),
-                ModelWords(2, true, "?", showCard = false),
-                ModelWords(3, false, " and The Cat ", showCard = false),
-                ModelWords(4, true, "?", showCard = false),
-            )
+    var dataQuiz = remember {
+        mutableStateListOf(
+            ModelWords(1, false, "The dog ", showCard = false),
+            ModelWords(2, true, "?", showCard = false),
+            ModelWords(3, false, " and The Cat ", showCard = false),
+            ModelWords(4, true, "?", showCard = false),
         )
     }
 
-    var quizXOffset = remember {
+    val quizXOffset = remember {
         mutableStateMapOf<Int, Float>()
     }
 
-    var quizYOffset = remember {
+    val quizYOffset = remember {
         mutableStateMapOf<Int, Float>()
     }
 
-    var boxRectDragable = remember {
+    val boxRectDragable = remember {
         mutableStateMapOf<Int, Rect>()
     }
 
-    var boxRectQuiz = remember {
+    val boxRectQuiz = remember {
         mutableStateMapOf<Int, Rect>()
     }
 
-    var answerXOffset = remember {
+    val answerXOffset = remember {
         mutableStateMapOf<Int, Float>()
     }
 
-    var answerYOffset = remember {
+    val answerYOffset = remember {
         mutableStateMapOf<Int, Float>()
     }
 
-    var boxRectAnswer = remember {
+    val boxRectAnswer = remember {
         mutableStateMapOf<Int, Rect>()
     }
 
@@ -118,7 +116,7 @@ fun ReadScreen(navController: NavController) {
                 }
                 MyShadowCard(
                     modifier = Modifier
-                        .padding()
+                        .padding(12.dp)
                         .fillMaxWidth()
                         .fillMaxHeight(0.3f)
                 ) {
@@ -138,6 +136,7 @@ fun ReadScreen(navController: NavController) {
                             if (dt.type) {
                                 CardQuiz(
                                     modifier = Modifier
+                                        .padding(vertical = 10.dp)
                                         .width(minWidtR)
                                         .height(minHeightR)
                                         .onGloballyPositioned { coordinates ->
@@ -180,21 +179,29 @@ fun ReadScreen(navController: NavController) {
                                                             var checkNull = false
                                                             for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
                                                                 val (key, rect) = entry
-                                                                if(key==id)
+                                                                if (key == id)
                                                                     continue
 
-                                                                if(dataQuiz[ind].hasContent)
+                                                                if (dataQuiz[ind].hasContent)
                                                                     continue
 
-                                                                if (boxRectDragable[id]!!.overlaps(rect)) {
-                                                                    dataQuiz = dataQuiz.toMutableList().apply {
+                                                                if (boxRectDragable[id]!!.overlaps(
+                                                                        rect
+                                                                    )
+                                                                ) {
+                                                                    dataQuiz = dataQuiz.apply {
                                                                         this[ind] = this[ind].copy(
                                                                             data = dt.data,
                                                                             showCard = true,
-                                                                            emp = dt.emp
+                                                                            emp = dt.emp,
+                                                                            hasContent = true
                                                                         )
                                                                     }
-                                                                    dt.showCard = false
+                                                                    dt.apply {
+                                                                        hasContent = false
+                                                                        showCard = false
+                                                                        data = "?"
+                                                                    }
                                                                     checkNull = true
                                                                     quizXOffset[id] = 0f
                                                                     quizYOffset[id] = 0f
@@ -202,10 +209,17 @@ fun ReadScreen(navController: NavController) {
                                                                 }
 
                                                             }
-                                                            if(boxRectDragable[id]!!.overlaps(rectColumnAnswer)){
+                                                            if (boxRectDragable[id]!!.overlaps(
+                                                                    rectColumnAnswer
+                                                                )
+                                                            ) {
                                                                 val emDt = dt.emp
-                                                                if(emDt!=null){
-                                                                    dt.showCard = false
+                                                                if (emDt != null) {
+                                                                    dt.apply {
+                                                                        hasContent = false
+                                                                        showCard = false
+                                                                        data = "?"
+                                                                    }
                                                                     checkNull = true
                                                                     cardWidth[emDt] = 280.dp
                                                                     cardHeight[emDt] = 60.dp
@@ -214,7 +228,7 @@ fun ReadScreen(navController: NavController) {
                                                                     dt.data = "?"
                                                                 }
                                                             }
-                                                            if(!checkNull){
+                                                            if (!checkNull) {
                                                                 quizXOffset[id] = 0f
                                                                 quizYOffset[id] = 0f
                                                             }
@@ -252,85 +266,84 @@ fun ReadScreen(navController: NavController) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
-                    for(i in 0 until  listAnswer.size) {
-                            val item = listAnswer[i]
-                            val id = item.id
-                            if (!boxRectAnswer.containsKey(id))
-                                boxRectAnswer[id] = Rect.Zero
-                            if (!answerXOffset.containsKey(id))
-                                answerXOffset[id] = 0f
-                            if (!answerYOffset.containsKey(id))
-                                answerYOffset[id] = 0f
-                            if (!cardWidth.containsKey(id))
-                                cardWidth[id] = 280.dp
-                            if (!cardHeight.containsKey(id))
-                                cardHeight[id] = 60.dp
-                            if (item.showCard) {
-                                DraggableAnswerCard(
-                                    item = item.data,
-                                    modifier = Modifier
-                                        .padding(vertical = 4.dp)
-                                        .offset {
-                                            IntOffset(
-                                                answerXOffset[id]!!.roundToInt(),
-                                                answerYOffset[id]!!.roundToInt()
-                                            )
-                                        }
-                                        .onGloballyPositioned {
-                                            boxRectAnswer[id] = it.boundsInWindow()
-                                        }
-                                        .width(cardWidth[id]!!)
-                                        .height(cardHeight[id]!!)
-                                        .pointerInput(Unit) {
-                                            detectDragGestures(
-                                                onDrag = { change, dragAmount ->
-                                                    change.consume()
+                    for (i in 0 until listAnswer.size) {
+                        val item = listAnswer[i]
+                        val id = item.id
+                        if (!boxRectAnswer.containsKey(id))
+                            boxRectAnswer[id] = Rect.Zero
+                        if (!answerXOffset.containsKey(id))
+                            answerXOffset[id] = 0f
+                        if (!answerYOffset.containsKey(id))
+                            answerYOffset[id] = 0f
+                        if (!cardWidth.containsKey(id))
+                            cardWidth[id] = 280.dp
+                        if (!cardHeight.containsKey(id))
+                            cardHeight[id] = 60.dp
+                        if (item.showCard) {
+                            DraggableAnswerCard(
+                                item = item.data,
+                                modifier = Modifier
+                                    .padding(vertical = 4.dp)
+                                    .offset {
+                                        IntOffset(
+                                            answerXOffset[id]!!.roundToInt(),
+                                            answerYOffset[id]!!.roundToInt()
+                                        )
+                                    }
+                                    .onGloballyPositioned {
+                                        boxRectAnswer[id] = it.boundsInWindow()
+                                    }
+                                    .width(cardWidth[id]!!)
+                                    .height(cardHeight[id]!!)
+                                    .pointerInput(Unit) {
+                                        detectDragGestures(
+                                            onDrag = { change, dragAmount ->
+                                                change.consume()
 //                                                Log.d("fatalkutest1", idx.toString())
-                                                    answerXOffset[id] =
-                                                        answerXOffset[id]!! + dragAmount.x
-                                                    answerYOffset[id] =
-                                                        answerYOffset[id]!! + dragAmount.y
-                                                    cardWidth[id] = minWidtR
-                                                    cardHeight[id] = minHeightR
-                                                },
-                                                onDragEnd = {
-                                                    var checkNull = false
-                                                    for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
-                                                        val (_, rect) = entry
-                                                        if(dataQuiz[ind].hasContent)
-                                                            continue
+                                                answerXOffset[id] =
+                                                    answerXOffset[id]!! + dragAmount.x
+                                                answerYOffset[id] =
+                                                    answerYOffset[id]!! + dragAmount.y
+                                                cardWidth[id] = minWidtR
+                                                cardHeight[id] = minHeightR
+                                            },
+                                            onDragEnd = {
+                                                var checkNull = false
+                                                for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
+                                                    val (_, rect) = entry
+                                                    if (dataQuiz[ind].hasContent)
+                                                        continue
 
-                                                        if (boxRectAnswer[id]!!.overlaps(rect)) {
-                                                            cardWidth[id] = minWidtR
-                                                            cardHeight[id] = minHeightR
-                                                            dataQuiz = dataQuiz
-                                                                .toMutableList()
-                                                                .apply {
-                                                                    this[ind] = this[ind].copy(
-                                                                        data = item.data,
-                                                                        showCard = true,
-                                                                        emp = id,
-                                                                        hasContent = true
-                                                                    )
-                                                                }
-                                                            checkNull = true
-                                                            cardWidth[id] = 0.dp
-                                                            cardHeight[id] = 0.dp
-                                                            answerXOffset[id] = 0f
-                                                            answerYOffset[id] = 0f
-                                                            break
-                                                        }
-                                                    }
-                                                    if (!checkNull) {
-                                                        cardWidth[id] = 280.dp
-                                                        cardHeight[id] = 60.dp
+                                                    if (boxRectAnswer[id]!!.overlaps(rect)) {
+                                                        cardWidth[id] = minWidtR
+                                                        cardHeight[id] = minHeightR
+                                                        dataQuiz = dataQuiz
+                                                            .apply {
+                                                                this[ind] = this[ind].copy(
+                                                                    data = item.data,
+                                                                    showCard = true,
+                                                                    emp = id,
+                                                                    hasContent = true
+                                                                )
+                                                            }
+                                                        checkNull = true
+                                                        cardWidth[id] = 0.dp
+                                                        cardHeight[id] = 0.dp
                                                         answerXOffset[id] = 0f
                                                         answerYOffset[id] = 0f
+                                                        break
                                                     }
                                                 }
-                                            )
-                                        }
-                                )
+                                                if (!checkNull) {
+                                                    cardWidth[id] = 280.dp
+                                                    cardHeight[id] = 60.dp
+                                                    answerXOffset[id] = 0f
+                                                    answerYOffset[id] = 0f
+                                                }
+                                            }
+                                        )
+                                    }
+                            )
                         }
                     }
                 }
