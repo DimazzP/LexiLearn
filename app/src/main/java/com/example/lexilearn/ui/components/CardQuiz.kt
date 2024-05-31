@@ -1,14 +1,9 @@
 package com.example.lexilearn.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,22 +13,29 @@ import com.example.lexilearn.ui.theme.ctextBlack
 
 @Composable
 fun CardQuiz(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = cprimary,
-        ),
-        shape = RoundedCornerShape(16.dp),
+    Box(
         modifier = modifier
-            .padding(2.dp)
             .border(2.dp, ctextBlack, RoundedCornerShape(16.dp))
+            .background(cprimary, shape = RoundedCornerShape(16.dp)),
+        contentAlignment = Alignment.Center,
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            content()
-        }
+        content()
     }
+//    Box(
+////        colors = CardDefaults.cardColors(
+////            containerColor = cprimary,
+////        ),
+////        shape = RoundedCornerShape(16.dp),
+//        modifier = modifier
+//            .border(2.dp, ctextBlack, RoundedCornerShape(16.dp)).background(cprimary)
+//    ) {
+//        Box(
+//            contentAlignment = Alignment.Center,
+//            modifier = Modifier.fillMaxSize()
+//        ) {
+//            content()
+//        }
+//    }
 }
 
 //@Composable

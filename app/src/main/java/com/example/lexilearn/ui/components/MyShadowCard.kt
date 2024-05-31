@@ -1,4 +1,8 @@
 package com.example.lexilearn.ui.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,19 +12,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.lexilearn.ui.theme.cprimary
+import com.example.lexilearn.ui.theme.ctextBlack
+import com.example.lexilearn.ui.theme.cwhite
+
 @Composable
 fun MyShadowCard(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
-    Card(
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White,
-        ),
-        shape = RoundedCornerShape(16.dp),
+    Box(
         modifier = modifier
-            .padding(16.dp)
-            .fillMaxWidth(), // Atur sesuai kebutuhan Anda
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        )
+            .background(cwhite, shape = RoundedCornerShape(16.dp))
+            .fillMaxWidth()
+//        colors = CardDefaults.cardColors(
+//            containerColor = Color.White,
+//        ),
+//        shape = RoundedCornerShape(16.dp),
+//        modifier = modifier
+//            .padding(16.dp)
+//            .fillMaxWidth(), // Atur sesuai kebutuhan Anda
+//        elevation = CardDefaults.cardElevation(
+//            defaultElevation = 8.dp
+//        )
     ) {
         content()
     }
