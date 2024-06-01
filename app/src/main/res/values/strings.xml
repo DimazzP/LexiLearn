@@ -8,7 +8,8 @@
     <string name="email">E-mail</string>
     <string name="password">Kata Sandi</string>
     <string name="fullname">Nama Lengkap</string>
-    <string name="close">Kembali</string>
+    <string name="close">Tutup</string>
+    <string name="next">Selanjutnya</string>
 
 
 <!--    screen page-->

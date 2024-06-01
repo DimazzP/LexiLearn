@@ -25,7 +25,7 @@ import com.example.lexilearn.ui.theme.ctextBlack
 @Composable
 fun ButtonNext(onclick: () -> Unit, text: String, painter: Painter, modifier: Modifier) {
     Button(
-        onClick = {},
+        onClick = onclick,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = caccent // Background color

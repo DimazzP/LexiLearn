@@ -141,34 +141,3 @@ fun ResultScreeningScreen(navController: NavController) {
         }
     }
 }
-
-@Composable
-fun CutCircleBox() {
-    // Custom shape definition
-    val cutCircleShape = object : Shape {
-        override fun createOutline(
-            size: androidx.compose.ui.geometry.Size,
-            layoutDirection: LayoutDirection,
-            density: androidx.compose.ui.unit.Density
-        ): Outline {
-            val path = Path().apply {
-                val fullHeight = size.height
-                val cutHeight = fullHeight * 0.8f  // 80% height to cut 20% off the bottom
-                addRoundRect(
-                    RoundRect(0f, 0f, size.width, cutHeight, size.width / 2, size.width / 2)
-                )
-            }
-            return Outline.Generic(path)
-        }
-    }
-
-    // Box with custom clipped shape
-    Box(
-        modifier = Modifier
-            .size(100.dp)  // Ensuring the width and height are the same for a perfect circle
-            .clip(cutCircleShape)  // Applying the custom shape
-            .background(Color.Blue)  // Setting background color
-    ) {
-        // Content inside the Box if needed
-    }
-}

@@ -156,7 +156,7 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxWidth()
             ) {
                 val (quizRef, alphabetRef, screeningRef, newsRef) = createRefs()
-                ButtonHome(onClick = { navController.navigate("quiz") }, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("read") }, modifier = Modifier
                     .constrainAs(quizRef) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
@@ -181,7 +181,7 @@ fun HomeScreen(navController: NavController) {
                         )
                     }
                 }
-                ButtonHome(onClick = { navController.navigate("alphabet") }, modifier = Modifier
+                ButtonHome(onClick = {  }, modifier = Modifier
                     .constrainAs(alphabetRef) {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
@@ -232,7 +232,7 @@ fun HomeScreen(navController: NavController) {
                         )
                     }
                 }
-                ButtonHome(onClick = { navController.navigate("news") }, modifier = Modifier
+                ButtonHome(onClick = {  }, modifier = Modifier
                     .constrainAs(newsRef) {
                         top.linkTo(quizRef.bottom)
                         end.linkTo(parent.end)
