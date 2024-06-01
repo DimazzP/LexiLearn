@@ -12,6 +12,7 @@ import com.example.lexilearn.ui.views.pLogin.LoginScreen
 //import com.example.lexilearn.ui.views.pQuiz.pRead.DragAndDropExample
 import com.example.lexilearn.ui.views.pQuiz.pRead.ReadScreen
 import com.example.lexilearn.ui.views.pRegister.RegisterScreen
+import com.example.lexilearn.ui.views.pScreening.ScreeningScreen
 import com.example.lexilearn.ui.views.pSplashcreen.SplashScreen
 
 
@@ -27,11 +28,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MyApp() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "read") {
+    NavHost(navController = navController, startDestination = "screening") {
         composable("splash") { SplashScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("read"){ ReadScreen(navController) }
+        composable("screening"){ ScreeningScreen(navController) }
     }
 }

@@ -34,14 +34,7 @@ import kotlin.math.roundToInt
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ReadScreen(navController: NavController) {
-    val listAnswer =
-        remember {
-            mutableStateListOf(
-                ModelAnswerRead(1, "chases"),
-                ModelAnswerRead(2, "run"),
-                ModelAnswerRead(3, "watches")
-            )
-        }
+
     var rectColumnAnswer by remember { mutableStateOf(Rect.Zero) }
 
     val cardWidth = remember {
@@ -63,6 +56,15 @@ fun ReadScreen(navController: NavController) {
             ModelWords(4, true, "?", showCard = false),
         )
     }
+
+    val listAnswer =
+        remember {
+            mutableStateListOf(
+                ModelAnswerRead(1, "chases"),
+                ModelAnswerRead(2, "run"),
+                ModelAnswerRead(3, "watches")
+            )
+        }
 
     val quizXOffset = remember {
         mutableStateMapOf<Int, Float>()
@@ -118,7 +120,6 @@ fun ReadScreen(navController: NavController) {
                     modifier = Modifier
                         .padding(12.dp)
                         .fillMaxWidth()
-                        .fillMaxHeight(0.3f)
                 ) {
                     FlowRow(
                         modifier = Modifier.padding(12.dp),
