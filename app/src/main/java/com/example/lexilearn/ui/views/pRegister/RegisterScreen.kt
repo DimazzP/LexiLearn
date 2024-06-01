@@ -10,14 +10,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.GradientRegister
 import com.example.lexilearn.ui.components.LoginTextButton
@@ -25,7 +24,6 @@ import com.example.lexilearn.ui.components.NameTextField
 import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.PasswordTextField
-import com.example.lexilearn.ui.theme.ctextWhite
 import com.example.lexilearn.ui.theme.ctransTextWhite
 
 
@@ -39,7 +37,7 @@ fun RegisterScreen(navController: NavController) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (txtTitle, txtDesc, nameRef, emailRef, passwordRef, registerRef, loginRef) = createRefs()
             Text(
-                text = "Register",
+                text = stringResource(id = R.string.regissignup),
                 color = ctransTextWhite,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
@@ -52,7 +50,7 @@ fun RegisterScreen(navController: NavController) {
             )
 
             Text(
-                text = "Start your educational journey on the right foot! Sign up today and gain access to a wealth of dyslexia-aware resources designed to help you thrive",
+                text = stringResource(id = R.string.regisdesc),
                 color = ctransTextWhite,
                 fontSize = 16.sp,
                 modifier = Modifier.constrainAs(txtDesc) {
@@ -63,6 +61,7 @@ fun RegisterScreen(navController: NavController) {
                 }
             )
             NameTextField(
+                placeholder = stringResource(id = R.string.fullname),
                 value = name,
                 onValueChange = { name = it },
                 ic = R.drawable.ic_user,
@@ -94,7 +93,7 @@ fun RegisterScreen(navController: NavController) {
                 })
 
             CustomButton(
-                text = "Register",
+                text = stringResource(id = R.string.regis),
                 onClick = { },
                 modifier = Modifier.constrainAs(registerRef) {
                     bottom.linkTo(loginRef.top, margin = 12.dp)
@@ -104,21 +103,16 @@ fun RegisterScreen(navController: NavController) {
                 })
 
             LoginTextButton(
-                textHelper = "Already have an account? ",
-                textBtn = "Sign In",
+                textHelper = stringResource(id = R.string.regishave) + " ",
+                textBtn = stringResource(id = R.string.login),
                 onclick = { navController.popBackStack() },
                 modifier = Modifier.constrainAs(loginRef) {
                     start.linkTo(parent.start, margin = 12.dp)
                     end.linkTo(parent.end, margin = 12.dp)
                     bottom.linkTo(parent.bottom, margin = 20.dp)
                     width = Dimension.wrapContent
-                })
+                }
+            )
         }
     }
-}
-
-@Preview
-@Composable
-fun RegisterScreenPreview() {
-    RegisterScreen(navController = rememberNavController())
 }

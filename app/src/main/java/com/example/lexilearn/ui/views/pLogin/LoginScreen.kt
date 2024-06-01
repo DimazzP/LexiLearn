@@ -5,6 +5,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -13,6 +14,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.GradientLogin
@@ -32,7 +34,7 @@ fun LoginScreen(navController: NavController) {
             val (txtTitle, txtDesc, emailRef, passwordRef, loginButtonRef, registerTextRef) = createRefs()
 
             Text(
-                text = "Login",
+                text = stringResource(id = R.string.login),
                 color = ctransTextWhite,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -45,7 +47,7 @@ fun LoginScreen(navController: NavController) {
             )
 
             Text(
-                text = "Login to Lexilearn and experience the ease of learning. Specially designed to help you overcome dyslexia with innovative features",
+                text = stringResource(id = R.string.logindesc),
                 color = ctransTextWhite,
                 fontSize = 16.sp,
                 modifier = Modifier.constrainAs(txtDesc){
@@ -79,7 +81,7 @@ fun LoginScreen(navController: NavController) {
             )
 
             CustomButton(
-                text = "Sign In",
+                text = stringResource(id = R.string.login),
                 onClick = { navController.navigate("home") },
                 modifier = Modifier.constrainAs(loginButtonRef) {
                     bottom.linkTo(registerTextRef.top, margin = 32.dp)
@@ -89,8 +91,8 @@ fun LoginScreen(navController: NavController) {
                 })
 
             LoginTextButton(
-                textBtn = "Register",
-                textHelper = "Do not have account? ",
+                textBtn = stringResource(id = R.string.regis),
+                textHelper = stringResource(id = R.string.loginhave) + " ",
                 onclick = { navController.navigate("register") },
                 modifier = Modifier.constrainAs(registerTextRef) {
                     bottom.linkTo(parent.bottom, margin = 20.dp)

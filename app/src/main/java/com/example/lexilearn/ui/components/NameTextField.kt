@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.lexilearn.R
 
 @Composable
-fun NameTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit, modifier: Modifier = Modifier, ic: Int) {
+fun NameTextField(placeholder: String, value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit, modifier: Modifier = Modifier, ic: Int) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -32,7 +32,7 @@ fun NameTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit
                 tint = Color.Gray
             )
         },
-        placeholder = { Text(text = "E-mail") },
+        placeholder = { Text(text = placeholder) },
         shape = RoundedCornerShape(8.dp),
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         colors = TextFieldDefaults.colors(
@@ -47,29 +47,3 @@ fun NameTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit
             .background(Color.White, RoundedCornerShape(8.dp))
     )
 }
-//@Composable
-//fun EmailTextField(value: TextFieldValue, modifier: Modifier = Modifier, onValueChange: (TextFieldValue) -> Unit) {
-//    OutlinedTextField(
-//        value = value,
-//        onValueChange = onValueChange,
-//        leadingIcon = {
-//            Icon(
-//                painter = painterResource(id = R.drawable.ic_email), // Replace with your email icon drawable resource
-//                contentDescription = "Email Icon",
-//                tint = Color.Gray
-//            )
-//        },
-//        placeholder = { Text(text = "E-mail") },
-//        shape = RoundedCornerShape(8.dp),
-//        colors = TextFieldDefaults.colors(
-//            focusedContainerColor = Color.White,
-//            unfocusedContainerColor = Color.White,
-//            disabledContainerColor = Color.White,
-//            focusedIndicatorColor = Color.Transparent,
-//            unfocusedIndicatorColor = Color.Transparent
-//        ),
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .background(Color.White, RoundedCornerShape(8.dp))
-//    )
-//}

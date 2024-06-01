@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
@@ -55,7 +56,7 @@ fun ScreeningScreen(navController: NavController) {
 
     GradientScreening(
         backButton = { navController.popBackStack() },
-        headerText = "Screening Test",
+        headerText = stringResource(id = R.string.screentitle),
         modifier = Modifier.fillMaxSize()
     ) {
         ConstraintLayout(
@@ -77,9 +78,21 @@ fun ScreeningScreen(navController: NavController) {
                     top.linkTo(lineRef.bottom)
                 }) {
                 itemsIndexed(itemQuestion) { index, item ->
-                    CardScreening(onOptionSelected = { selectOption ->
-                        itemQuestion[index].answer = selectOption
-                    })
+                    CardScreening(
+                        question = "${index + 1}. ${item.question}",
+                        onOptionSelected = { selectOption ->
+                            itemQuestion[index].answer = selectOption
+                        })
+                }
+                item {
+                    ButtonNext(
+                        onclick = { navController.navigate("resultscreening") },
+                        text = stringResource(id = R.string.screensend),
+                        painter = painterResource(id = R.drawable.ic_send),
+                        modifier = Modifier
+                            .padding(vertical = 30.dp, horizontal = 50.dp)
+                            .fillMaxWidth()
+                    )
                 }
             }
             Box(modifier = Modifier
@@ -88,32 +101,7 @@ fun ScreeningScreen(navController: NavController) {
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 }) {
-                ButtonNext(
-                    onclick = { },
-                    text = "Send Test",
-                    painter = painterResource(id = R.drawable.ic_send),
-                    modifier = Modifier
-                )
             }
-
-//            Button(onClick = {},
-//                shape = RoundedCornerShape(12.dp),
-//                colors = ButtonDefaults.buttonColors(
-//                    containerColor = caccent // Background color
-//                ), modifier = Modifier
-//                    .border(2.dp, caccent, RoundedCornerShape(12.dp))
-//                    .background(caccent, RoundedCornerShape(12.dp))
-//                    .constrainAs(buttonRef) {
-//                        bottom.linkTo(parent.bottom)
-//                        end.linkTo(parent.end)
-//                    }) {
-//                Row(
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    Text(text = "Finish Test")
-//                    Icon(painter = painterResource(id = R.drawable.ic_back), contentDescription = "", tint = ctextBlack)
-//                }
-//            }
         }
     }
 }

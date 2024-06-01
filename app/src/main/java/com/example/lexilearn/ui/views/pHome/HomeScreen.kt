@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -117,7 +118,7 @@ fun HomeScreen(navController: NavController) {
                         .padding(12.dp)
                 ) {
                     Text(
-                        text = "PROGRESS",
+                        text = stringResource(id = R.string.homeprogress),
                         color = cprimary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -155,7 +156,7 @@ fun HomeScreen(navController: NavController) {
                     .fillMaxWidth()
             ) {
                 val (quizRef, alphabetRef, screeningRef, newsRef) = createRefs()
-                ButtonHome(onClick = {}, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("quiz") }, modifier = Modifier
                     .constrainAs(quizRef) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)
@@ -171,7 +172,7 @@ fun HomeScreen(navController: NavController) {
                                 .padding(bottom = 12.dp)
                         )
                         Text(
-                            text = "QUIZ",
+                            text = stringResource(id = R.string.homequiz),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
@@ -180,7 +181,7 @@ fun HomeScreen(navController: NavController) {
                         )
                     }
                 }
-                ButtonHome(onClick = {}, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("alphabet") }, modifier = Modifier
                     .constrainAs(alphabetRef) {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
@@ -197,7 +198,7 @@ fun HomeScreen(navController: NavController) {
                                 .padding(bottom = 12.dp)
                         )
                         Text(
-                            text = "ALPHABET",
+                            text = stringResource(id = R.string.homealphabet),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
@@ -206,7 +207,7 @@ fun HomeScreen(navController: NavController) {
                         )
                     }
                 }
-                ButtonHome(onClick = {}, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("screening") }, modifier = Modifier
                     .constrainAs(screeningRef) {
                         top.linkTo(quizRef.bottom)
                         start.linkTo(quizRef.start)
@@ -222,7 +223,7 @@ fun HomeScreen(navController: NavController) {
                                 .padding(bottom = 12.dp)
                         )
                         AutoSizeText(
-                            text = "SCREENING-TEST",
+                            text = stringResource(id = R.string.homescreening),
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth(),
@@ -231,7 +232,7 @@ fun HomeScreen(navController: NavController) {
                         )
                     }
                 }
-                ButtonHome(onClick = {}, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("news") }, modifier = Modifier
                     .constrainAs(newsRef) {
                         top.linkTo(quizRef.bottom)
                         end.linkTo(parent.end)
@@ -247,7 +248,7 @@ fun HomeScreen(navController: NavController) {
                                 .padding(bottom = 12.dp)
                         )
                         Text(
-                            text = "NEWS",
+                            text = stringResource(id = R.string.homenews),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,

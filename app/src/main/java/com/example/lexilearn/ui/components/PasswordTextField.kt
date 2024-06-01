@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -32,7 +33,7 @@ fun PasswordTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> 
                 tint = Color.Gray
             )
         },
-        placeholder = { Text(text = "Password") },
+        placeholder = { Text(text = stringResource(id = R.string.password)) },
         shape = RoundedCornerShape(8.dp),
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {

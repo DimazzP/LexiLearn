@@ -22,16 +22,6 @@ fun MyShadowCard(modifier: Modifier = Modifier, content: @Composable () -> Unit)
         modifier = modifier
             .background(cwhite, shape = RoundedCornerShape(16.dp))
             .fillMaxWidth()
-//        colors = CardDefaults.cardColors(
-//            containerColor = Color.White,
-//        ),
-//        shape = RoundedCornerShape(16.dp),
-//        modifier = modifier
-//            .padding(16.dp)
-//            .fillMaxWidth(), // Atur sesuai kebutuhan Anda
-//        elevation = CardDefaults.cardElevation(
-//            defaultElevation = 8.dp
-//        )
     ) {
         content()
     }

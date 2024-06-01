@@ -19,14 +19,22 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lexilearn.R
+import com.example.lexilearn.ui.theme.ctextGray
 
 
 @Composable
-fun CardScreening(onOptionSelected: (Int) -> Unit) {
+fun CardScreening(question: String, onOptionSelected: (Int) -> Unit) {
+
+    // r.string
+    val textYes = stringResource(id = R.string.screenyes)
+    val textNo = stringResource(id = R.string.screenno)
+    val textKnow = stringResource(id = R.string.screenknow)
+
     var selectedOption by remember { mutableStateOf("") }
 
     Card(
@@ -41,45 +49,45 @@ fun CardScreening(onOptionSelected: (Int) -> Unit) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Is there a family history of learning disorders?",
+                text = question,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
-                text = "Select One",
+                text = stringResource(id = R.string.screenselect),
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Light,
-                modifier = Modifier.padding(bottom = 16.dp)
+                color = ctextGray,
+                modifier = Modifier.padding(bottom = 4.dp, top = 6.dp)
             )
 
             OptionItem(
-                text = "Yes",
+                text = textYes,
                 iconColor = Color(0xFF4CAF50),
-                isSelected = selectedOption == "Yes",
+                isSelected = selectedOption == textYes,
                 painter = painterResource(id = R.drawable.cl_check),
                 onSelect = {
-                    selectedOption = "Yes"
+                    selectedOption = textYes
                     onOptionSelected(1)
                 }
             )
             OptionItem(
-                text = "No",
+                text =textNo,
                 iconColor = Color(0xFFF44336),
-                isSelected = selectedOption == "No",
+                isSelected = selectedOption ==textNo,
                 painter = painterResource(id = R.drawable.cl_close),
                 onSelect = {
-                    selectedOption = "No"
+                    selectedOption = textNo
                     onOptionSelected(2)
                 }
             )
             OptionItem(
-                text = "Don't Know",
+                text = textKnow,
                 iconColor = Color(0xFFFFC107),
-                isSelected = selectedOption == "Don't Know",
+                isSelected = selectedOption == textKnow,
                 painter = painterResource(id = R.drawable.cl_helper),
                 onSelect = {
-                    selectedOption = "Don't Know"
+                    selectedOption = textKnow
                     onOptionSelected(3)
                 }
             )

@@ -1,12 +1,28 @@
 package com.example.lexilearn.ui.views.pQuiz.pRead
 
 import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
-
-
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -44,6 +60,9 @@ fun ReadScreen(navController: NavController) {
     val cardHeight = remember {
         mutableStateMapOf<Int, Dp>()
     }
+
+    val maxWidthR = 280.dp
+    val maxHeightR = 60.dp
 
     val minWidtR = 90.dp
     val minHeightR = 40.dp
@@ -222,8 +241,8 @@ fun ReadScreen(navController: NavController) {
                                                                         data = "?"
                                                                     }
                                                                     checkNull = true
-                                                                    cardWidth[emDt] = 280.dp
-                                                                    cardHeight[emDt] = 60.dp
+                                                                    cardWidth[emDt] = maxWidthR
+                                                                    cardHeight[emDt] = maxHeightR
                                                                     quizXOffset[id] = 0f
                                                                     quizYOffset[id] = 0f
                                                                     dt.data = "?"
@@ -277,9 +296,9 @@ fun ReadScreen(navController: NavController) {
                         if (!answerYOffset.containsKey(id))
                             answerYOffset[id] = 0f
                         if (!cardWidth.containsKey(id))
-                            cardWidth[id] = 280.dp
+                            cardWidth[id] = maxWidthR
                         if (!cardHeight.containsKey(id))
-                            cardHeight[id] = 60.dp
+                            cardHeight[id] = maxHeightR
                         if (item.showCard) {
                             DraggableAnswerCard(
                                 item = item.data,
@@ -300,7 +319,6 @@ fun ReadScreen(navController: NavController) {
                                         detectDragGestures(
                                             onDrag = { change, dragAmount ->
                                                 change.consume()
-//                                                Log.d("fatalkutest1", idx.toString())
                                                 answerXOffset[id] =
                                                     answerXOffset[id]!! + dragAmount.x
                                                 answerYOffset[id] =
@@ -336,8 +354,8 @@ fun ReadScreen(navController: NavController) {
                                                     }
                                                 }
                                                 if (!checkNull) {
-                                                    cardWidth[id] = 280.dp
-                                                    cardHeight[id] = 60.dp
+                                                    cardWidth[id] = maxWidthR
+                                                    cardHeight[id] = maxHeightR
                                                     answerXOffset[id] = 0f
                                                     answerYOffset[id] = 0f
                                                 }
@@ -352,5 +370,3 @@ fun ReadScreen(navController: NavController) {
         }
     }
 }
-
-

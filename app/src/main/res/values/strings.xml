@@ -2,4 +2,50 @@
     <string name="app_name">LexiLearn</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_login_screen">LoginScreen</string>
+
+<!--    default-->
+    <string name="strdefault">default</string>
+    <string name="email">E-mail</string>
+    <string name="password">Kata Sandi</string>
+    <string name="fullname">Nama Lengkap</string>
+    <string name="close">Kembali</string>
+
+
+<!--    screen page-->
+    <string name="screenyes">Iya</string>
+    <string name="screenno">Tidak</string>
+    <string name="screenknow">Tidak Tahu</string>
+    <string name="screenselect">Pilih</string>
+    <string name="screentitle">Screening Test</string>
+    <string name="screensend">Kirim Test</string>
+
+<!--    login page-->
+    <string name="login">Masuk</string>
+    <string name="logindesc">Masuk ke Lexilearn dan rasakan kemudahan belajar. Dirancang khusus untuk membantu Anda mengatasi disleksia dengan fitur-fitur inovatif</string>
+    <string name="loginhave">Belum memiliki akun?</string>
+    
+<!--    register page-->
+    <string name="regis">Daftar</string>
+    <string name="regissignup">Mendaftar</string>
+    <string name="regisdesc">Mulailah perjalanan pendidikan Anda dengan langkah yang tepat! Daftar hari ini dan dapatkan akses ke berbagai sumber daya yang dirancang dengan kesadaran tentang disleksia untuk membantu Anda berhasil</string>
+    <string name="regishave">Sudah memiliki akun?</string>
+    
+<!--    home page-->
+    <string name="homequiz">KUIS</string>
+    <string name="homealphabet">ALFABET</string>
+    <string name="homescreening">TES-SCREENING</string>
+    <string name="homenews">BERITA</string>
+    <string name="homeprogress">KEMAJUAN</string>
+
+<!--    result screen page-->
+    <string name="rescreentitle">Hasil Test</string>
+    <string name="rescreendesc">Jika Anda ragu dengan hasil tes kami, silakan hubungi kami atau hubungi dokter profesional.</string>
+
+
+<!--    read screen-->
+    <string name="readtitle">Belajar Membaca</string>
+
+<!--    spell screen-->
+    <string name="spelltitle">Belajar Susun Kata</string>
+
 </resources>
