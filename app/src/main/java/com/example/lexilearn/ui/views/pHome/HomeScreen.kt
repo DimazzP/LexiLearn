@@ -178,7 +178,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
                         )
                     }
                 }
-                ButtonHome(onClick = {  }, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("alphabet") }, modifier = Modifier
                     .constrainAs(alphabetRef) {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
