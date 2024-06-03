@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.lexilearn.ui.theme.cprimary
 import com.example.lexilearn.ui.theme.csecondary
 
@@ -24,5 +25,11 @@ fun GradientSplash(content: @Composable () -> Unit) {
             )
     ) {
         content()
+    }
+}
+@Preview
+@Composable
+fun GradientSplashPreview() {
+    GradientSplash {
     }
 }

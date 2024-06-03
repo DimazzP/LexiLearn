@@ -1,40 +1,23 @@
 package com.example.lexilearn.ui.views.pQuiz.pSpell
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -45,13 +28,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
-import com.example.lexilearn.domain.models.ModelAnswerRead
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.ui.components.CardQuiz
 import com.example.lexilearn.ui.components.DraggableAnswerCard
 import com.example.lexilearn.ui.components.GradientQuiz
@@ -59,69 +42,18 @@ import com.example.lexilearn.ui.components.MyShadowCard
 import com.example.lexilearn.ui.theme.ctextWhite
 import kotlin.math.roundToInt
 import com.example.lexilearn.R
-import com.example.lexilearn.domain.models.ModelSpell
 import com.example.lexilearn.ui.components.ButtonNext
 import com.example.lexilearn.ui.theme.ctextGray
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
-fun SpellScreen(navController: NavController) {
-
-    var rectColumnAnswer by remember { mutableStateOf(Rect.Zero) }
-
-    val cardSize = remember {
-        mutableStateMapOf<Int, Dp>()
-    }
+fun SpellScreen(navController: NavController, viewModel: SpellViewModel = viewModel()) {
 
     val maxSize = 120.dp
 
     val minSize = 70.dp
 
-    var dataQuiz = remember {
-        mutableStateListOf(
-            ModelSpell(1, false, "r ", showCard = false),
-            ModelSpell(2, false, "i", showCard = false),
-            ModelSpell(3, true, "?", showCard = false),
-            ModelSpell(4, false, "e", showCard = false),
-        )
-    }
-
-    val listAnswer =
-        remember {
-            mutableStateListOf(
-                ModelAnswerRead(1, "a"),
-                ModelAnswerRead(2, "c"),
-                ModelAnswerRead(3, "d"),
-                ModelAnswerRead(4, "k")
-            )
-        }
-
-    val quizXOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val quizYOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val boxRectDragable = remember {
-        mutableStateMapOf<Int, Rect>()
-    }
-
-    val boxRectQuiz = remember {
-        mutableStateMapOf<Int, Rect>()
-    }
-
-    val answerXOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val answerYOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val boxRectAnswer = remember {
-        mutableStateMapOf<Int, Rect>()
-    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         GradientQuiz(
@@ -173,23 +105,23 @@ fun SpellScreen(navController: NavController) {
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceAround
                             ) {
-                                dataQuiz.forEach { dt ->
+                                viewModel.dataQuiz.forEach { dt ->
                                     val id = dt.id
-                                    if (!boxRectDragable.containsKey(id))
-                                        boxRectDragable[id] = Rect.Zero
-                                    if (!boxRectQuiz.containsKey(id))
-                                        boxRectQuiz[id] = Rect.Zero
-                                    if (!quizXOffset.containsKey(id))
-                                        quizXOffset[id] = 0f
-                                    if (!quizYOffset.containsKey(id))
-                                        quizYOffset[id] = 0f
+                                    if (!viewModel.boxRectDragable.containsKey(id))
+                                        viewModel.boxRectDragable[id] = Rect.Zero
+                                    if (!viewModel.boxRectQuiz.containsKey(id))
+                                        viewModel.boxRectQuiz[id] = Rect.Zero
+                                    if (!viewModel.quizXOffset.containsKey(id))
+                                        viewModel.quizXOffset[id] = 0f
+                                    if (!viewModel.quizYOffset.containsKey(id))
+                                        viewModel.quizYOffset[id] = 0f
                                     CardQuiz(
                                         modifier = Modifier
                                             .padding(vertical = 10.dp)
                                             .size(minSize)
                                             .onGloballyPositioned { coordinates ->
                                                 if (dt.type)
-                                                    boxRectQuiz[id] = coordinates.boundsInWindow()
+                                                    viewModel.boxRectQuiz[id] = coordinates.boundsInWindow()
                                             }
                                     ) {
                                         if (dt.type) {
@@ -205,15 +137,15 @@ fun SpellScreen(navController: NavController) {
                                                     item = dt.data,
                                                     modifier = Modifier
                                                         .offset {
-                                                            val xOffset = quizXOffset[id] ?: 0f
-                                                            val yOffset = quizYOffset[id] ?: 0f
+                                                            val xOffset = viewModel.quizXOffset[id] ?: 0f
+                                                            val yOffset = viewModel.quizYOffset[id] ?: 0f
                                                             IntOffset(
                                                                 xOffset.roundToInt(),
                                                                 yOffset.roundToInt()
                                                             )
                                                         }
                                                         .onGloballyPositioned {
-                                                            boxRectDragable[id] =
+                                                            viewModel.boxRectDragable[id] =
                                                                 it.boundsInWindow()
                                                         }
                                                         .fillMaxSize()
@@ -221,27 +153,27 @@ fun SpellScreen(navController: NavController) {
                                                             detectDragGestures(
                                                                 onDrag = { change, dragAmount ->
                                                                     change.consume()
-                                                                    quizXOffset[id] =
-                                                                        quizXOffset[id]!! + dragAmount.x
-                                                                    quizYOffset[id] =
-                                                                        quizYOffset[id]!! + dragAmount.y
+                                                                    viewModel.quizXOffset[id] =
+                                                                        viewModel.quizXOffset[id]!! + dragAmount.x
+                                                                    viewModel.quizYOffset[id] =
+                                                                        viewModel.quizYOffset[id]!! + dragAmount.y
                                                                 },
                                                                 onDragEnd = {
                                                                     var checkNull = false
-                                                                    for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
+                                                                    for ((ind, entry) in viewModel.boxRectQuiz.entries.withIndex()) {
                                                                         val (key, rect) = entry
                                                                         if (key == id)
                                                                             continue
 
-                                                                        if (dataQuiz[ind].hasContent)
+                                                                        if (viewModel.dataQuiz[ind].hasContent)
                                                                             continue
 
-                                                                        if (boxRectDragable[id]!!.overlaps(
+                                                                        if (viewModel.boxRectDragable[id]!!.overlaps(
                                                                                 rect
                                                                             )
                                                                         ) {
-                                                                            dataQuiz =
-                                                                                dataQuiz.apply {
+                                                                            viewModel.dataQuiz =
+                                                                                viewModel.dataQuiz.apply {
                                                                                     this[ind] =
                                                                                         this[ind].copy(
                                                                                             data = dt.data,
@@ -256,14 +188,14 @@ fun SpellScreen(navController: NavController) {
                                                                                 data = "?"
                                                                             }
                                                                             checkNull = true
-                                                                            quizXOffset[id] = 0f
-                                                                            quizYOffset[id] = 0f
+                                                                            viewModel.quizXOffset[id] = 0f
+                                                                            viewModel.quizYOffset[id] = 0f
                                                                             break
                                                                         }
 
                                                                     }
-                                                                    if (boxRectDragable[id]!!.overlaps(
-                                                                            rectColumnAnswer
+                                                                    if (viewModel.boxRectDragable[id]!!.overlaps(
+                                                                            viewModel.rectColumnAnswer.value
                                                                         )
                                                                     ) {
                                                                         val emDt = dt.emp
@@ -274,15 +206,15 @@ fun SpellScreen(navController: NavController) {
                                                                                 data = "?"
                                                                             }
                                                                             checkNull = true
-                                                                            cardSize[emDt] = maxSize
-                                                                            quizXOffset[id] = 0f
-                                                                            quizYOffset[id] = 0f
+                                                                            viewModel.cardSize[emDt] = maxSize
+                                                                            viewModel.quizXOffset[id] = 0f
+                                                                            viewModel.quizYOffset[id] = 0f
                                                                             dt.data = "?"
                                                                         }
                                                                     }
                                                                     if (!checkNull) {
-                                                                        quizXOffset[id] = 0f
-                                                                        quizYOffset[id] = 0f
+                                                                        viewModel.quizXOffset[id] = 0f
+                                                                        viewModel.quizYOffset[id] = 0f
                                                                     }
                                                                 }
                                                             )
@@ -319,61 +251,61 @@ fun SpellScreen(navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .onGloballyPositioned {
-                                rectColumnAnswer = it.boundsInWindow()
+                                viewModel.rectColumnAnswer.value = it.boundsInWindow()
                             },
                     ) {
-                        listAnswer.chunked(2).forEach { rowItems ->
+                        viewModel.listAnswer.chunked(2).forEach { rowItems ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = Arrangement.Center
                             ) {
                                 rowItems.forEach { item ->
                                     val id = item.id
-                                    if (!cardSize.containsKey(id))
-                                        cardSize[id] = maxSize
-                                    if (!boxRectAnswer.containsKey(id))
-                                        boxRectAnswer[id] = Rect.Zero
-                                    if (!answerXOffset.containsKey(id))
-                                        answerXOffset[id] = 0f
-                                    if (!answerYOffset.containsKey(id))
-                                        answerYOffset[id] = 0f
+                                    if (!viewModel.cardSize.containsKey(id))
+                                        viewModel.cardSize[id] = maxSize
+                                    if (!viewModel.boxRectAnswer.containsKey(id))
+                                        viewModel.boxRectAnswer[id] = Rect.Zero
+                                    if (!viewModel.answerXOffset.containsKey(id))
+                                        viewModel.answerXOffset[id] = 0f
+                                    if (!viewModel.answerYOffset.containsKey(id))
+                                        viewModel.answerYOffset[id] = 0f
                                     DraggableAnswerCard(
                                         item = item.data,
                                         modifier = Modifier
                                             .padding(10.dp)
-                                            .size(cardSize[id]!!)
+                                            .size(viewModel.cardSize[id]!!)
                                             .offset {
                                                 IntOffset(
-                                                    answerXOffset[id]!!.roundToInt(),
-                                                    answerYOffset[id]!!.roundToInt()
+                                                    viewModel.answerXOffset[id]!!.roundToInt(),
+                                                    viewModel.answerYOffset[id]!!.roundToInt()
                                                 )
                                             }
                                             .onGloballyPositioned { coordinates ->
-                                                boxRectAnswer[id] = coordinates.boundsInWindow()
+                                                viewModel.boxRectAnswer[id] = coordinates.boundsInWindow()
                                             }
                                             .pointerInput(Unit) {
                                                 detectDragGestures(
                                                     onDrag = { change, dragAmount ->
                                                         change.consume()
-                                                        answerXOffset[id] =
-                                                            answerXOffset[id]!! + dragAmount.x
-                                                        answerYOffset[id] =
-                                                            answerYOffset[id]!! + dragAmount.y
-                                                        cardSize[id] = minSize
+                                                        viewModel.answerXOffset[id] =
+                                                            viewModel.answerXOffset[id]!! + dragAmount.x
+                                                        viewModel.answerYOffset[id] =
+                                                            viewModel.answerYOffset[id]!! + dragAmount.y
+                                                        viewModel.cardSize[id] = minSize
                                                     },
                                                     onDragEnd = {
                                                         var checkNull = false
-                                                        for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
+                                                        for ((ind, entry) in viewModel.boxRectQuiz.entries.withIndex()) {
                                                             val (_, rect) = entry
-                                                            if (dataQuiz[ind].hasContent)
+                                                            if (viewModel.dataQuiz[ind].hasContent)
                                                                 continue
 
-                                                            if (boxRectAnswer[id]!!.overlaps(
+                                                            if (viewModel.boxRectAnswer[id]!!.overlaps(
                                                                     rect
                                                                 )
                                                             ) {
-                                                                cardSize[id] = minSize
-                                                                dataQuiz = dataQuiz
+                                                                viewModel.cardSize[id] = minSize
+                                                                viewModel.dataQuiz = viewModel.dataQuiz
                                                                     .apply {
                                                                         this[ind] =
                                                                             this[ind].copy(
@@ -384,16 +316,16 @@ fun SpellScreen(navController: NavController) {
                                                                             )
                                                                     }
                                                                 checkNull = true
-                                                                cardSize[id] = 0.dp
-                                                                answerXOffset[id] = 0f
-                                                                answerYOffset[id] = 0f
+                                                                viewModel.cardSize[id] = 0.dp
+                                                                viewModel.answerXOffset[id] = 0f
+                                                                viewModel.answerYOffset[id] = 0f
                                                                 break
                                                             }
                                                         }
                                                         if (!checkNull) {
-                                                            cardSize[id] = maxSize
-                                                            answerXOffset[id] = 0f
-                                                            answerYOffset[id] = 0f
+                                                            viewModel.cardSize[id] = maxSize
+                                                            viewModel.answerXOffset[id] = 0f
+                                                            viewModel.answerYOffset[id] = 0f
                                                         }
                                                     }
                                                 )
@@ -414,7 +346,8 @@ fun SpellScreen(navController: NavController) {
                     painter = painterResource(id = R.drawable.ic_next),
                     modifier = Modifier
                         .padding(vertical = 30.dp, horizontal = 50.dp)
-                        .fillMaxWidth().constrainAs(buttonRef){
+                        .fillMaxWidth()
+                        .constrainAs(buttonRef) {
                             bottom.linkTo(parent.bottom)
                         }
                 )
@@ -422,4 +355,12 @@ fun SpellScreen(navController: NavController) {
 
         }
     }
+}
+
+
+@Preview
+@Composable
+fun SpellScreenPreview() {
+    val navController = rememberNavController()
+    SpellScreen(navController = navController)
 }

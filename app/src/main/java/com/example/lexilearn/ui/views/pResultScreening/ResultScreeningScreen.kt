@@ -12,13 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -31,9 +27,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.RoundRect
-import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.theme.cprimary
 import com.example.lexilearn.ui.theme.ctextBlack
@@ -140,4 +136,11 @@ fun ResultScreeningScreen(navController: NavController) {
                 })
         }
     }
+}
+
+@Preview
+@Composable
+fun ResultScreeningScreenPreview() {
+    val navController = rememberNavController()
+    ResultScreeningScreen(navController = navController)
 }

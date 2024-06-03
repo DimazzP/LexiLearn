@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lexilearn.R
@@ -45,5 +46,17 @@ fun NameTextField(placeholder: String, value: TextFieldValue, onValueChange: (Te
         modifier = modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(8.dp))
+    )
+}
+
+@Preview
+@Composable
+fun NameTextFieldPreview() {
+    NameTextField(
+        placeholder = "Enter your name",
+        value = TextFieldValue(""),
+        onValueChange = {},
+        modifier = Modifier.padding(16.dp),
+        ic = R.drawable.ic_user // Replace with your icon drawable resource
     )
 }

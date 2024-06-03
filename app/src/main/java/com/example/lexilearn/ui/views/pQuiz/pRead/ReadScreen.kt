@@ -1,9 +1,5 @@
 package com.example.lexilearn.ui.views.pQuiz.pRead
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,12 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
@@ -37,15 +28,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
-import com.example.lexilearn.domain.models.ModelAnswerRead
-import com.example.lexilearn.domain.models.ModelWords
 import com.example.lexilearn.ui.components.ButtonNext
 import com.example.lexilearn.ui.components.CardQuiz
 import com.example.lexilearn.ui.components.DraggableAnswerCard
@@ -58,69 +49,12 @@ import kotlin.math.roundToInt
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ReadScreen(navController: NavController) {
-
-    var rectColumnAnswer by remember { mutableStateOf(Rect.Zero) }
-
-    val cardWidth = remember {
-        mutableStateMapOf<Int, Dp>()
-    }
-
-    val cardHeight = remember {
-        mutableStateMapOf<Int, Dp>()
-    }
-
+fun ReadScreen(navController: NavController, viewModel: ReadViewModel = viewModel()) {
     val maxWidthR = 280.dp
     val maxHeightR = 60.dp
 
-    val minWidtR = 90.dp
+    val minWidthR = 90.dp
     val minHeightR = 40.dp
-
-    var dataQuiz = remember {
-        mutableStateListOf(
-            ModelWords(1, false, "The dog ", showCard = false),
-            ModelWords(2, true, "?", showCard = false),
-            ModelWords(3, false, " and The Cat ", showCard = false),
-            ModelWords(4, true, "?", showCard = false),
-        )
-    }
-
-    val listAnswer =
-        remember {
-            mutableStateListOf(
-                ModelAnswerRead(1, "chases"),
-                ModelAnswerRead(2, "run"),
-                ModelAnswerRead(3, "watches")
-            )
-        }
-
-    val quizXOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val quizYOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val boxRectDragable = remember {
-        mutableStateMapOf<Int, Rect>()
-    }
-
-    val boxRectQuiz = remember {
-        mutableStateMapOf<Int, Rect>()
-    }
-
-    val answerXOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val answerYOffset = remember {
-        mutableStateMapOf<Int, Float>()
-    }
-
-    val boxRectAnswer = remember {
-        mutableStateMapOf<Int, Rect>()
-    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         GradientQuiz(
@@ -154,24 +88,24 @@ fun ReadScreen(navController: NavController) {
                         FlowRow(
                             modifier = Modifier.padding(12.dp),
                         ) {
-                            dataQuiz.forEach { dt ->
+                            viewModel.dataQuiz.forEach { dt ->
                                 val id = dt.id
-                                if (!boxRectDragable.containsKey(id))
-                                    boxRectDragable[id] = Rect.Zero
-                                if (!boxRectQuiz.containsKey(id))
-                                    boxRectQuiz[id] = Rect.Zero
-                                if (!quizXOffset.containsKey(id))
-                                    quizXOffset[id] = 0f
-                                if (!quizYOffset.containsKey(id))
-                                    quizYOffset[id] = 0f
+                                if (!viewModel.boxRectDragable.containsKey(id))
+                                    viewModel.boxRectDragable[id] = Rect.Zero
+                                if (!viewModel.boxRectQuiz.containsKey(id))
+                                    viewModel.boxRectQuiz[id] = Rect.Zero
+                                if (!viewModel.quizXOffset.containsKey(id))
+                                    viewModel.quizXOffset[id] = 0f
+                                if (!viewModel.quizYOffset.containsKey(id))
+                                    viewModel.quizYOffset[id] = 0f
                                 if (dt.type) {
                                     CardQuiz(
                                         modifier = Modifier
                                             .padding(vertical = 10.dp)
-                                            .width(minWidtR)
+                                            .width(minWidthR)
                                             .height(minHeightR)
                                             .onGloballyPositioned { coordinates ->
-                                                boxRectQuiz[id] = coordinates.boundsInWindow()
+                                                viewModel.boxRectQuiz[id] = coordinates.boundsInWindow()
                                             }
                                     ) {
                                         Text(
@@ -186,41 +120,41 @@ fun ReadScreen(navController: NavController) {
                                                 item = dt.data,
                                                 modifier = Modifier
                                                     .offset {
-                                                        val xOffset = quizXOffset[id] ?: 0f
-                                                        val yOffset = quizYOffset[id] ?: 0f
+                                                        val xOffset = viewModel.quizXOffset[id] ?: 0f
+                                                        val yOffset = viewModel.quizYOffset[id] ?: 0f
                                                         IntOffset(
                                                             xOffset.roundToInt(),
                                                             yOffset.roundToInt()
                                                         )
                                                     }
                                                     .onGloballyPositioned {
-                                                        boxRectDragable[id] = it.boundsInWindow()
+                                                        viewModel.boxRectDragable[id] = it.boundsInWindow()
                                                     }
                                                     .fillMaxSize()
                                                     .pointerInput(Unit) {
                                                         detectDragGestures(
                                                             onDrag = { change, dragAmount ->
                                                                 change.consume()
-                                                                quizXOffset[id] =
-                                                                    quizXOffset[id]!! + dragAmount.x
-                                                                quizYOffset[id] =
-                                                                    quizYOffset[id]!! + dragAmount.y
+                                                                viewModel.quizXOffset[id] =
+                                                                    viewModel.quizXOffset[id]!! + dragAmount.x
+                                                                viewModel.quizYOffset[id] =
+                                                                    viewModel.quizYOffset[id]!! + dragAmount.y
                                                             },
                                                             onDragEnd = {
                                                                 var checkNull = false
-                                                                for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
+                                                                for ((ind, entry) in viewModel.boxRectQuiz.entries.withIndex()) {
                                                                     val (key, rect) = entry
                                                                     if (key == id)
                                                                         continue
 
-                                                                    if (dataQuiz[ind].hasContent)
+                                                                    if (viewModel.dataQuiz[ind].hasContent)
                                                                         continue
 
-                                                                    if (boxRectDragable[id]!!.overlaps(
+                                                                    if (viewModel.boxRectDragable[id]!!.overlaps(
                                                                             rect
                                                                         )
                                                                     ) {
-                                                                        dataQuiz = dataQuiz.apply {
+                                                                        viewModel.dataQuiz = viewModel.dataQuiz.apply {
                                                                             this[ind] = this[ind].copy(
                                                                                 data = dt.data,
                                                                                 showCard = true,
@@ -234,14 +168,14 @@ fun ReadScreen(navController: NavController) {
                                                                             data = "?"
                                                                         }
                                                                         checkNull = true
-                                                                        quizXOffset[id] = 0f
-                                                                        quizYOffset[id] = 0f
+                                                                        viewModel.quizXOffset[id] = 0f
+                                                                        viewModel.quizYOffset[id] = 0f
                                                                         break
                                                                     }
 
                                                                 }
-                                                                if (boxRectDragable[id]!!.overlaps(
-                                                                        rectColumnAnswer
+                                                                if (viewModel.boxRectDragable[id]!!.overlaps(
+                                                                        viewModel.rectColumnAnswer.value
                                                                     )
                                                                 ) {
                                                                     val emDt = dt.emp
@@ -252,16 +186,16 @@ fun ReadScreen(navController: NavController) {
                                                                             data = "?"
                                                                         }
                                                                         checkNull = true
-                                                                        cardWidth[emDt] = maxWidthR
-                                                                        cardHeight[emDt] = maxHeightR
-                                                                        quizXOffset[id] = 0f
-                                                                        quizYOffset[id] = 0f
+                                                                        viewModel.cardWidth[emDt] = maxWidthR
+                                                                        viewModel.cardHeight[emDt] = maxHeightR
+                                                                        viewModel.quizXOffset[id] = 0f
+                                                                        viewModel.quizYOffset[id] = 0f
                                                                         dt.data = "?"
                                                                     }
                                                                 }
                                                                 if (!checkNull) {
-                                                                    quizXOffset[id] = 0f
-                                                                    quizYOffset[id] = 0f
+                                                                    viewModel.quizXOffset[id] = 0f
+                                                                    viewModel.quizYOffset[id] = 0f
                                                                 }
                                                             }
                                                         )
@@ -292,24 +226,24 @@ fun ReadScreen(navController: NavController) {
                         modifier = Modifier
                             .fillMaxSize()
                             .onGloballyPositioned {
-                                rectColumnAnswer = it.boundsInWindow()
+                                viewModel.rectColumnAnswer.value = it.boundsInWindow()
                             },
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        for (i in 0 until listAnswer.size) {
-                            val item = listAnswer[i]
+                        for (i in 0 until viewModel.listAnswer.size) {
+                            val item = viewModel.listAnswer[i]
                             val id = item.id
-                            if (!boxRectAnswer.containsKey(id))
-                                boxRectAnswer[id] = Rect.Zero
-                            if (!answerXOffset.containsKey(id))
-                                answerXOffset[id] = 0f
-                            if (!answerYOffset.containsKey(id))
-                                answerYOffset[id] = 0f
-                            if (!cardWidth.containsKey(id))
-                                cardWidth[id] = maxWidthR
-                            if (!cardHeight.containsKey(id))
-                                cardHeight[id] = maxHeightR
+                            if (!viewModel.boxRectAnswer.containsKey(id))
+                                viewModel.boxRectAnswer[id] = Rect.Zero
+                            if (!viewModel.answerXOffset.containsKey(id))
+                                viewModel.answerXOffset[id] = 0f
+                            if (!viewModel.answerYOffset.containsKey(id))
+                                viewModel.answerYOffset[id] = 0f
+                            if (!viewModel.cardWidth.containsKey(id))
+                                viewModel.cardWidth[id] = maxWidthR
+                            if (!viewModel.cardHeight.containsKey(id))
+                                viewModel.cardHeight[id] = maxHeightR
                             if (item.showCard) {
                                 DraggableAnswerCard(
                                     item = item.data,
@@ -317,37 +251,37 @@ fun ReadScreen(navController: NavController) {
                                         .padding(vertical = 4.dp)
                                         .offset {
                                             IntOffset(
-                                                answerXOffset[id]!!.roundToInt(),
-                                                answerYOffset[id]!!.roundToInt()
+                                                viewModel.answerXOffset[id]!!.roundToInt(),
+                                                viewModel.answerYOffset[id]!!.roundToInt()
                                             )
                                         }
                                         .onGloballyPositioned {
-                                            boxRectAnswer[id] = it.boundsInWindow()
+                                            viewModel.boxRectAnswer[id] = it.boundsInWindow()
                                         }
-                                        .width(cardWidth[id]!!)
-                                        .height(cardHeight[id]!!)
+                                        .width(viewModel.cardWidth[id]!!)
+                                        .height(viewModel.cardHeight[id]!!)
                                         .pointerInput(Unit) {
                                             detectDragGestures(
                                                 onDrag = { change, dragAmount ->
                                                     change.consume()
-                                                    answerXOffset[id] =
-                                                        answerXOffset[id]!! + dragAmount.x
-                                                    answerYOffset[id] =
-                                                        answerYOffset[id]!! + dragAmount.y
-                                                    cardWidth[id] = minWidtR
-                                                    cardHeight[id] = minHeightR
+                                                    viewModel.answerXOffset[id] =
+                                                        viewModel.answerXOffset[id]!! + dragAmount.x
+                                                    viewModel.answerYOffset[id] =
+                                                        viewModel.answerYOffset[id]!! + dragAmount.y
+                                                    viewModel.cardWidth[id] = minWidthR
+                                                    viewModel.cardHeight[id] = minHeightR
                                                 },
                                                 onDragEnd = {
                                                     var checkNull = false
-                                                    for ((ind, entry) in boxRectQuiz.entries.withIndex()) {
+                                                    for ((ind, entry) in viewModel.boxRectQuiz.entries.withIndex()) {
                                                         val (_, rect) = entry
-                                                        if (dataQuiz[ind].hasContent)
+                                                        if (viewModel.dataQuiz[ind].hasContent)
                                                             continue
 
-                                                        if (boxRectAnswer[id]!!.overlaps(rect)) {
-                                                            cardWidth[id] = minWidtR
-                                                            cardHeight[id] = minHeightR
-                                                            dataQuiz = dataQuiz
+                                                        if (viewModel.boxRectAnswer[id]!!.overlaps(rect)) {
+                                                            viewModel.cardWidth[id] = minWidthR
+                                                            viewModel.cardHeight[id] = minHeightR
+                                                            viewModel.dataQuiz = viewModel.dataQuiz
                                                                 .apply {
                                                                     this[ind] = this[ind].copy(
                                                                         data = item.data,
@@ -357,18 +291,18 @@ fun ReadScreen(navController: NavController) {
                                                                     )
                                                                 }
                                                             checkNull = true
-                                                            cardWidth[id] = 0.dp
-                                                            cardHeight[id] = 0.dp
-                                                            answerXOffset[id] = 0f
-                                                            answerYOffset[id] = 0f
+                                                            viewModel.cardWidth[id] = 0.dp
+                                                            viewModel.cardHeight[id] = 0.dp
+                                                            viewModel.answerXOffset[id] = 0f
+                                                            viewModel.answerYOffset[id] = 0f
                                                             break
                                                         }
                                                     }
                                                     if (!checkNull) {
-                                                        cardWidth[id] = maxWidthR
-                                                        cardHeight[id] = maxHeightR
-                                                        answerXOffset[id] = 0f
-                                                        answerYOffset[id] = 0f
+                                                        viewModel.cardWidth[id] = maxWidthR
+                                                        viewModel.cardHeight[id] = maxHeightR
+                                                        viewModel.answerXOffset[id] = 0f
+                                                        viewModel.answerYOffset[id] = 0f
                                                     }
                                                 }
                                             )
@@ -395,4 +329,12 @@ fun ReadScreen(navController: NavController) {
 
         }
     }
+}
+
+@Preview
+@Composable
+fun ReadScreenPreview() {
+    val navController = rememberNavController()
+    val viewModel = remember { ReadViewModel() } // Create a mock ViewModel instance
+    ReadScreen(navController = navController, viewModel = viewModel)
 }

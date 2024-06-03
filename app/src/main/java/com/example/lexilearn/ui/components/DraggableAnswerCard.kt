@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -58,107 +59,8 @@ fun DraggableAnswerCard(
     }
 }
 
-//@Composable
-//fun DraggableAnswerCard(
-//    item: String,
-//    modifier: Modifier = Modifier
-//) {
-//
-//    Box(
-//        modifier = modifier
-//
-//    ) {
-//        Card(
-//            colors = CardDefaults.cardColors(
-//                containerColor = cwhite,
-//            ),
-//            shape = RoundedCornerShape(16.dp),
-//            modifier = Modifier
-//                .padding(2.dp)
-//                .width(280.dp)
-//                .height(60.dp)
-//                .border(2.dp, cprimary, RoundedCornerShape(16.dp))
-//        ) {
-//            Box(
-//                contentAlignment = Alignment.Center,
-//                modifier = Modifier.fillMaxSize()
-//            ) {
-//                Text(
-//                    text = item,
-//                    textAlign = TextAlign.Center,
-//                    color = ctextBlack,
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 12.dp)
-//                )
-//            }
-//        }
-//    }
-//}
-//fun DraggableAnswerCard(
-//    item: String,
-//    onDragStart: () -> Unit,
-//    onDragEnd: (isDropped: Boolean) -> Unit,
-//    modifier: Modifier = Modifier
-//) {
-//    var offsetX by remember { mutableStateOf(0f) }
-//    var offsetY by remember { mutableStateOf(0f) }
-//    var dragging by remember { mutableStateOf(false) }
-//    var initialOffsetX by remember { mutableStateOf(0f) }
-//    var initialOffsetY by remember { mutableStateOf(0f) }
-//
-//    Box(
-//        modifier = modifier
-//            .zIndex(if (dragging) 1f else 0f)
-//            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
-//            .pointerInput(Unit) {
-//                detectDragGestures(
-//                    onDragStart = {
-//                        dragging = true
-//                        initialOffsetX = offsetX
-//                        initialOffsetY = offsetY
-//                        onDragStart()
-//                    },
-//                    onDrag = { change, dragAmount ->
-//                        change.consume()
-//                        offsetX += dragAmount.x
-//                        offsetY += dragAmount.y
-//                    },
-//                    onDragEnd = {
-//                        dragging = false
-//                        onDragEnd(false)
-//                        offsetX = initialOffsetX
-//                        offsetY = initialOffsetY
-//                    }
-//                )
-//            }
-//    ) {
-//        Card(
-//            colors = CardDefaults.cardColors(
-//                containerColor = cwhite,
-//            ),
-//            shape = RoundedCornerShape(16.dp),
-//            modifier = Modifier
-//                .padding(2.dp)
-//                .width(280.dp)
-//                .height(60.dp)
-//                .border(2.dp, cprimary, RoundedCornerShape(16.dp))
-//        ) {
-//            Box(
-//                contentAlignment = Alignment.Center,
-//                modifier = Modifier.fillMaxSize()
-//            ) {
-//                Text(
-//                    text = item,
-//                    textAlign = TextAlign.Center,
-//                    color = ctextBlack,
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(vertical = 12.dp)
-//                )
-//            }
-//        }
-//    }
-//}
+@Preview
+@Composable
+fun DraggableAnswerCardPreview() {
+    DraggableAnswerCard(item = "Sample Answer")
+}

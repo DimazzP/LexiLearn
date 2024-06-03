@@ -1,10 +1,8 @@
 package com.example.lexilearn.ui.views.pQuiz.pWrite
 
 import DrawBox
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,69 +11,39 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.boundsInWindow
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
-import com.example.lexilearn.domain.models.ModelAnswerRead
-import com.example.lexilearn.domain.models.ModelSpell
 import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.ButtonNext
 import com.example.lexilearn.ui.components.CardQuiz
-import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.GradientQuiz
 import com.example.lexilearn.ui.components.MyShadowCard
-import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.ctextGray
 import com.example.lexilearn.ui.theme.ctextWhite
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 @Composable
-fun WriteScreen(navController: NavController) {
+fun WriteScreen(navController: NavController, viewModel: WriteViewModel = viewModel()) {
     val minSize = 70.dp
-    var pathReady by remember { mutableStateOf<android.graphics.Path?>(null) }
-    var canvasSize by remember { mutableStateOf(androidx.compose.ui.geometry.Size.Zero) }
-
-    // gunakan variabel ini untuk mengambil hasil gambar
-    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-
-
-    var dataQuiz = remember {
-        mutableStateListOf(
-            ModelSpell(1, false, "r ", showCard = false),
-            ModelSpell(2, false, "i", showCard = false),
-            ModelSpell(3, true, "?", showCard = false),
-            ModelSpell(4, false, "e", showCard = false),
-        )
-    }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         GradientQuiz(
@@ -121,7 +89,7 @@ fun WriteScreen(navController: NavController) {
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceAround
                         ) {
-                            dataQuiz.forEach { dt ->
+                            viewModel.dataQuiz.forEach { dt ->
                                 CardQuiz(
                                     modifier = Modifier
                                         .padding(vertical = 10.dp)
@@ -169,8 +137,8 @@ fun WriteScreen(navController: NavController) {
                                         end.linkTo(parent.end)
                                     },
                                 onPathReady = { path, size ->
-                                    pathReady = path
-                                    canvasSize = size
+                                    viewModel.pathReady.value = path
+                                    viewModel.canvasSize.value = size
                                 }
                             )
                             Box(
@@ -197,25 +165,26 @@ fun WriteScreen(navController: NavController) {
                         Spacer(modifier = Modifier.height(12.dp))
                         ButtonNext(
                             onclick = {
-                                // fungsi untuk mengubah coretan menjadi bitmap
-                                pathReady?.let { path ->
-                                    val newBitmap = Bitmap.createBitmap(
-                                        canvasSize.width.toInt(),
-                                        canvasSize.height.toInt(),
-                                        Bitmap.Config.ARGB_8888
-                                    )
-                                    val canvas = android.graphics.Canvas(newBitmap)
-                                    canvas.drawColor(android.graphics.Color.WHITE)
-                                    canvas.drawPath(path, android.graphics.Paint().apply {
-                                        isAntiAlias = true
-                                        color = android.graphics.Color.BLACK
-                                        style = android.graphics.Paint.Style.STROKE
-                                        strokeJoin = android.graphics.Paint.Join.ROUND
-                                        strokeCap = android.graphics.Paint.Cap.ROUND
-                                        strokeWidth = 5f
-                                    })
-                                    bitmap = newBitmap
-                                }
+                                // jangan dihapus fungsi untuk mengubah coretan menjadi bitmap
+//                                viewModel.pathReady.value?.let { path ->
+//                                    val newBitmap = Bitmap.createBitmap(
+//                                        viewModel.canvasSize.value.width.toInt(),
+//                                        viewModel.canvasSize.value.height.toInt(),
+//                                        Bitmap.Config.ARGB_8888
+//                                    )
+//                                    val canvas = android.graphics.Canvas(newBitmap)
+//                                    canvas.drawColor(android.graphics.Color.WHITE)
+//                                    canvas.drawPath(path, android.graphics.Paint().apply {
+//                                        isAntiAlias = true
+//                                        color = android.graphics.Color.BLACK
+//                                        style = android.graphics.Paint.Style.STROKE
+//                                        strokeJoin = android.graphics.Paint.Join.ROUND
+//                                        strokeCap = android.graphics.Paint.Cap.ROUND
+//                                        strokeWidth = 5f
+//                                    })
+//                                    viewModel.bitmap.value = newBitmap
+//                                    Log.d("testcobaku", "masuk")
+//                                }
                             },
                             text = stringResource(id = R.string.next),
                             painter = painterResource(id = R.drawable.ic_next),
@@ -226,8 +195,9 @@ fun WriteScreen(navController: NavController) {
 
                         Spacer(modifier = Modifier.height(12.dp))
 
-                        //contoh jika ingin menampilkan gambar
-//                        bitmap?.let {
+                        // jangan dihapus contoh jika ingin menampilkan gambar
+//                        viewModel.bitmap.value?.let {
+//                            Log.d("testcobaku", "terisi")
 //                            Image(
 //                                bitmap = it.asImageBitmap(),
 //                                contentDescription = null,
@@ -239,4 +209,11 @@ fun WriteScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun WriteScreenPreview() {
+    val navController = rememberNavController()
+    WriteScreen(navController = navController)
 }

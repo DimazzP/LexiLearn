@@ -3,7 +3,6 @@ package com.example.lexilearn.ui.views.pHome
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,17 +17,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.ButtonHome
@@ -38,8 +38,6 @@ import com.example.lexilearn.ui.theme.cbackground
 import com.example.lexilearn.ui.theme.cprimary
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.ctextWhite
-import com.github.tehras.charts.bar.renderer.xaxis.SimpleXAxisDrawer
-import com.github.tehras.charts.bar.renderer.yaxis.SimpleYAxisDrawer
 import com.github.tehras.charts.line.LineChart
 import com.github.tehras.charts.line.LineChartData
 import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
@@ -47,8 +45,7 @@ import com.github.tehras.charts.line.renderer.point.FilledCircularPointDrawer
 import com.github.tehras.charts.piechart.animation.simpleChartAnimation
 
 @Composable
-fun HomeScreen(navController: NavController) {
-    val viewModel: HomeViewModel = viewModel()
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewModel()) {
     val scrollState = rememberScrollState()
 
     Column(
@@ -260,4 +257,11 @@ fun HomeScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview() {
+    val navController = rememberNavController()
+    HomeScreen(navController = navController)
 }

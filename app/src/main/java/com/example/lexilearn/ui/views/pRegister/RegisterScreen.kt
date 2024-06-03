@@ -1,22 +1,20 @@
 package com.example.lexilearn.ui.views.pRegister
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.GradientRegister
 import com.example.lexilearn.ui.components.LoginTextButton
@@ -25,14 +23,12 @@ import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.PasswordTextField
 import com.example.lexilearn.ui.theme.ctransTextWhite
+import kotlinx.coroutines.flow.forEach
 
 
 @Composable
-fun RegisterScreen(navController: NavController) {
-    val viewModel: RegisterViewModel = viewModel()
-    var name by remember { mutableStateOf(TextFieldValue("")) }
-    var email by remember { mutableStateOf(TextFieldValue("")) }
-    var password by remember { mutableStateOf(TextFieldValue("")) }
+fun RegisterScreen(navController: NavController,  viewModel: RegisterViewModel = viewModel()) {
+
     GradientRegister {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
             val (txtTitle, txtDesc, nameRef, emailRef, passwordRef, registerRef, loginRef) = createRefs()
@@ -62,8 +58,8 @@ fun RegisterScreen(navController: NavController) {
             )
             NameTextField(
                 placeholder = stringResource(id = R.string.fullname),
-                value = name,
-                onValueChange = { name = it },
+                value = viewModel.name,
+                onValueChange = { viewModel.name = it },
                 ic = R.drawable.ic_user,
                 modifier = Modifier.constrainAs(nameRef) {
                     bottom.linkTo(emailRef.top, margin = 12.dp)
@@ -73,8 +69,8 @@ fun RegisterScreen(navController: NavController) {
                 })
 
             EmailTextField(
-                value = email,
-                onValueChange = { email = it },
+                value = viewModel.email,
+                onValueChange = { viewModel.email = it },
                 modifier = Modifier.constrainAs(emailRef) {
                     bottom.linkTo(passwordRef.top, margin = 12.dp)
                     end.linkTo(parent.end, margin = 12.dp)
@@ -83,8 +79,8 @@ fun RegisterScreen(navController: NavController) {
                 })
 
             PasswordTextField(
-                value = password,
-                onValueChange = { password = it },
+                value = viewModel.password,
+                onValueChange = { viewModel.password = it },
                 modifier = Modifier.constrainAs(passwordRef) {
                     bottom.linkTo(registerRef.top, margin = 12.dp)
                     end.linkTo(parent.end, margin = 12.dp)
@@ -105,7 +101,15 @@ fun RegisterScreen(navController: NavController) {
             LoginTextButton(
                 textHelper = stringResource(id = R.string.regishave) + " ",
                 textBtn = stringResource(id = R.string.login),
-                onclick = { navController.popBackStack() },
+                onclick = {
+                          navController.popBackStack()
+//                    if(!navController.popBackStack()){
+//                    Log.e("testcoba", "tidak ada kosong")
+//                    navController.navigate("login")
+//                }else{
+//                    Log.d("testcoba", "ada")
+//                }
+                                                             },
                 modifier = Modifier.constrainAs(loginRef) {
                     start.linkTo(parent.start, margin = 12.dp)
                     end.linkTo(parent.end, margin = 12.dp)
@@ -116,3 +120,12 @@ fun RegisterScreen(navController: NavController) {
         }
     }
 }
+
+@Preview
+@Composable
+fun RegisterScreenPreview() {
+    val navController = rememberNavController()
+    val viewModel: RegisterViewModel = viewModel()
+    RegisterScreen(navController = navController, viewModel = viewModel)
+}
+

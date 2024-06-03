@@ -1,4 +1,5 @@
 package com.example.lexilearn.ui.components
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,6 +22,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lexilearn.R
@@ -28,14 +30,15 @@ import com.example.lexilearn.ui.theme.ctextGray
 
 
 @Composable
-fun CardScreening(question: String, onOptionSelected: (Int) -> Unit) {
+fun CardScreening(question: String, selectedOption: Int?, onOptionSelected: (Int) -> Unit) {
 
     // r.string
     val textYes = stringResource(id = R.string.screenyes)
     val textNo = stringResource(id = R.string.screenno)
     val textKnow = stringResource(id = R.string.screenknow)
 
-    var selectedOption by remember { mutableStateOf("") }
+    val getSelect = selectedOption ?: 0
+    var selectedOption by remember { mutableIntStateOf(getSelect) }
 
     Card(
         shape = MaterialTheme.shapes.medium,
@@ -64,33 +67,43 @@ fun CardScreening(question: String, onOptionSelected: (Int) -> Unit) {
             OptionItem(
                 text = textYes,
                 iconColor = Color(0xFF4CAF50),
-                isSelected = selectedOption == textYes,
+                isSelected = selectedOption == 1,
                 painter = painterResource(id = R.drawable.cl_check),
                 onSelect = {
-                    selectedOption = textYes
+                    selectedOption = 1
                     onOptionSelected(1)
                 }
             )
             OptionItem(
-                text =textNo,
+                text = textNo,
                 iconColor = Color(0xFFF44336),
-                isSelected = selectedOption ==textNo,
+                isSelected = selectedOption == 2,
                 painter = painterResource(id = R.drawable.cl_close),
                 onSelect = {
-                    selectedOption = textNo
+                    selectedOption = 2
                     onOptionSelected(2)
                 }
             )
             OptionItem(
                 text = textKnow,
                 iconColor = Color(0xFFFFC107),
-                isSelected = selectedOption == textKnow,
+                isSelected = selectedOption == 3,
                 painter = painterResource(id = R.drawable.cl_helper),
                 onSelect = {
-                    selectedOption = textKnow
+                    selectedOption = 3
                     onOptionSelected(3)
                 }
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun CardScreeningPreview() {
+    CardScreening(
+        question = "Is this a screening question?",
+        selectedOption = 1, // Simulate a selected option
+        onOptionSelected = {}
+    )
 }

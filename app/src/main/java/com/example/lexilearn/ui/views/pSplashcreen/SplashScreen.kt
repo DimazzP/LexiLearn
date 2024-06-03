@@ -10,10 +10,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.GradientSplash
 import com.example.lexilearn.ui.theme.ctextGray
@@ -23,7 +25,9 @@ import com.example.lexilearn.ui.theme.ctextWhite
 fun SplashScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         Handler(Looper.getMainLooper()).postDelayed({
-            navController.navigate("login")
+            navController.navigate("login"){
+                popUpTo("splash") { inclusive = true }
+            }
         }, 500) // Delay for 3 seconds
     }
     GradientSplash {
@@ -81,4 +85,10 @@ fun SplashScreen(navController: NavController) {
             )
         }
     }
+}
+@Preview
+@Composable
+fun SplashScreenPreview() {
+    val navController = rememberNavController()
+    SplashScreen(navController = navController)
 }

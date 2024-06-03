@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.lexilearn.R
@@ -50,5 +51,15 @@ fun EmailTextField(
         modifier = modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(8.dp))
+    )
+}
+
+@Preview
+@Composable
+fun EmailTextFieldPreview() {
+    EmailTextField(
+        value = TextFieldValue(""),
+        onValueChange = {},
+        modifier = Modifier.padding(16.dp)
     )
 }
