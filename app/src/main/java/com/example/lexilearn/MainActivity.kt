@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.lexilearn.ui.views.pAlphabet.AlphabetScreen
 import com.example.lexilearn.ui.views.pHome.HomeScreen
 import com.example.lexilearn.ui.views.pLogin.LoginScreen
 //import com.example.lexilearn.ui.views.pQuiz.pRead.DragAndDropExample
@@ -41,5 +42,6 @@ fun MyApp() {
         composable("write"){ WriteScreen(navController) }
         composable("screening"){ ScreeningScreen(navController) }
         composable("resultscreening"){ ResultScreeningScreen(navController) }
+        composable("alphabet") { AlphabetScreen(navController)}
     }
 }
