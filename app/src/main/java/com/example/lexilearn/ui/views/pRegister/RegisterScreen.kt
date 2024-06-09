@@ -27,7 +27,7 @@ import kotlinx.coroutines.flow.forEach
 
 
 @Composable
-fun RegisterScreen(navController: NavController,  viewModel: RegisterViewModel = viewModel()) {
+fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = viewModel()) {
 
     GradientRegister {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
@@ -102,14 +102,8 @@ fun RegisterScreen(navController: NavController,  viewModel: RegisterViewModel =
                 textHelper = stringResource(id = R.string.regishave) + " ",
                 textBtn = stringResource(id = R.string.login),
                 onclick = {
-                          navController.popBackStack()
-//                    if(!navController.popBackStack()){
-//                    Log.e("testcoba", "tidak ada kosong")
-//                    navController.navigate("login")
-//                }else{
-//                    Log.d("testcoba", "ada")
-//                }
-                                                             },
+                    navController.popBackStack()
+                },
                 modifier = Modifier.constrainAs(loginRef) {
                     start.linkTo(parent.start, margin = 12.dp)
                     end.linkTo(parent.end, margin = 12.dp)

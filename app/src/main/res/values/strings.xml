@@ -49,4 +49,9 @@
 <!--    spell screen-->
     <string name="spelltitle">Belajar Susun Kata</string>
 
+<!--    profile-->
+    <string name="profile">Profil</string>
+    <string name="change_password">Ubah Sandi</string>
+    <string name="btn_change">Ubah Sandi</string>
+
 </resources>
