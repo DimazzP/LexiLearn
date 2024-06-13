@@ -1,9 +1,14 @@
 package com.example.lexilearn.ui.views.pLogin
 
-import androidx.compose.foundation.layout.*
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -11,19 +16,39 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
+import com.example.lexilearn.data.lib.ApiResponse
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.GradientLogin
 import com.example.lexilearn.ui.components.LoginTextButton
 import com.example.lexilearn.ui.components.PasswordTextField
 import com.example.lexilearn.ui.theme.ctransTextWhite
+import com.example.lexilearn.util.isValidEmail
+import com.example.lexilearn.util.isValidPassword
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinViewModel()) {
+    val loginState = viewModel.loginState.observeAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(loginState.value) {
+        loginState.value?.let {
+            when (it) {
+                is ApiResponse.Loading -> Log.d("LoginScreen", "Loading")
+                is ApiResponse.Success -> {
+                    Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+                    navController.navigate("home") {
+                        popUpTo("login") { inclusive = true }
+                    }
+                }
+                is ApiResponse.Error -> Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     GradientLogin {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
@@ -78,7 +103,17 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
 
             CustomButton(
                 text = stringResource(id = R.string.login),
-                onClick = { navController.navigate("home") },
+                onClick = {
+                    try {
+                        viewModel.email.isValidEmail(context)
+                        viewModel.password.isValidPassword(context)
+
+                        viewModel.login()
+                    } catch (e: Exception) {
+                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+                    }
+                },
+                enabled = loginState.value !== ApiResponse.Loading,
                 modifier = Modifier.constrainAs(loginButtonRef) {
                     bottom.linkTo(registerTextRef.top, margin = 32.dp)
                     start.linkTo(parent.start, margin = 12.dp)
