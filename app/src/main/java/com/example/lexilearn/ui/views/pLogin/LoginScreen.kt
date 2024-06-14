@@ -25,6 +25,7 @@ import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.GradientLogin
 import com.example.lexilearn.ui.components.LoginTextButton
 import com.example.lexilearn.ui.components.PasswordTextField
+import com.example.lexilearn.ui.components.ProgressOverlay
 import com.example.lexilearn.ui.theme.ctransTextWhite
 import com.example.lexilearn.util.isValidEmail
 import com.example.lexilearn.util.isValidPassword
@@ -52,7 +53,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
 
     GradientLogin {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (txtTitle, txtDesc, emailRef, passwordRef, loginButtonRef, registerTextRef) = createRefs()
+            val (txtTitle, txtDesc, emailRef, passwordRef, loginButtonRef, registerTextRef, loadingRef) = createRefs()
 
             Text(
                 text = stringResource(id = R.string.login),
@@ -132,6 +133,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
                     width = Dimension.wrapContent
                 }
             )
+            if(viewModel.showLoading)
+                ProgressOverlay()
         }
     }
 }

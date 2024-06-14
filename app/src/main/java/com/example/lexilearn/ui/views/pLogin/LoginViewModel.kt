@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class LoginViewModel(private val useCase: AuthUseCase) : ViewModel() {
     var email by mutableStateOf(TextFieldValue(""))
     var password by mutableStateOf(TextFieldValue(""))
+    var showLoading by mutableStateOf(true)
 
     private val _loginState = MutableLiveData<ApiResponse<User>>(null)
     val loginState: LiveData<ApiResponse<User>> = _loginState
