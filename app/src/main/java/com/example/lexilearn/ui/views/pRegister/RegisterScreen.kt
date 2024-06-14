@@ -25,6 +25,7 @@ import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.GradientRegister
 import com.example.lexilearn.ui.components.LoginTextButton
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.NameTextField
 import com.example.lexilearn.ui.components.PasswordTextField
 import com.example.lexilearn.ui.theme.ctransTextWhite
@@ -147,6 +148,9 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = 
                     width = Dimension.wrapContent
                 }
             )
+            LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+                viewModel.showLoading = false
+            }
         }
     }
 }

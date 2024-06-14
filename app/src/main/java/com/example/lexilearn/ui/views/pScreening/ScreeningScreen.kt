@@ -24,6 +24,7 @@ import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.ButtonNext
 import com.example.lexilearn.ui.components.CardScreening
 import com.example.lexilearn.ui.components.GradientScreening
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.theme.ctextGray
 
 @Composable
@@ -77,6 +78,9 @@ fun ScreeningScreen(navController: NavController, viewModel: ScreeningViewModel 
                     bottom.linkTo(parent.bottom)
                     end.linkTo(parent.end)
                 }) {
+            }
+            LottieProgressDialog(isDialogOpen = viewModel.showLoading.value) {
+                viewModel.showLoading.value = false
             }
         }
     }

@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.ui.components.BackButton
+import com.example.lexilearn.ui.components.LottieProgressDialog
 
 @Composable
 fun AlphabetScreen(navController: NavController) {
@@ -62,6 +63,9 @@ fun AlphabetScreen(navController: NavController) {
                     )
                 )
         ) {
+            LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+                viewModel.showLoading = false
+            }
             Column(
                 modifier = Modifier
                     .padding(4.dp),

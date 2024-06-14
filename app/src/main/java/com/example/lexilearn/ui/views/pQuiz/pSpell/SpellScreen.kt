@@ -45,6 +45,7 @@ import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.ButtonNext
 import com.example.lexilearn.ui.theme.ctextGray
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lexilearn.ui.components.LottieProgressDialog
 
 
 @Composable
@@ -336,6 +337,9 @@ fun SpellScreen(navController: NavController, viewModel: SpellViewModel = viewMo
                         }
                     }
                     Spacer(modifier = Modifier.height(12.dp))
+                    LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+                        viewModel.showLoading = false
+                    }
                 }
 
                 ButtonNext(

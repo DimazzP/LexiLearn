@@ -11,4 +11,5 @@ class ProfileViewModel : ViewModel() {
     var name by mutableStateOf(TextFieldValue(""))
     var email by mutableStateOf(TextFieldValue(""))
     var password by mutableStateOf(TextFieldValue(""))
+    var showLoading by mutableStateOf(false)
 }

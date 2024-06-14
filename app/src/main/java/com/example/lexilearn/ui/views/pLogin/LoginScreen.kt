@@ -24,8 +24,8 @@ import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.GradientLogin
 import com.example.lexilearn.ui.components.LoginTextButton
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.PasswordTextField
-import com.example.lexilearn.ui.components.ProgressOverlay
 import com.example.lexilearn.ui.theme.ctransTextWhite
 import com.example.lexilearn.util.isValidEmail
 import com.example.lexilearn.util.isValidPassword
@@ -133,8 +133,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
                     width = Dimension.wrapContent
                 }
             )
-            if(viewModel.showLoading)
-                ProgressOverlay()
+            LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+                viewModel.showLoading = false
+            }
         }
     }
 }

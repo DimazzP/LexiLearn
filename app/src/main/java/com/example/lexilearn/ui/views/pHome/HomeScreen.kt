@@ -33,6 +33,7 @@ import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.ButtonHome
 import com.example.lexilearn.ui.components.CircleAvatar
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.MyCard
 import com.example.lexilearn.ui.theme.cbackground
 import com.example.lexilearn.ui.theme.cprimary
@@ -263,6 +264,9 @@ fun HomeScreen(navController: NavController, preferenceManager: PreferenceManage
                     }
                 }
             }
+        }
+        LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+            viewModel.showLoading = false
         }
     }
 }

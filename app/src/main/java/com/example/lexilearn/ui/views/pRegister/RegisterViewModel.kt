@@ -18,6 +18,8 @@ class RegisterViewModel(private val useCase: AuthUseCase) : ViewModel() {
     var name by mutableStateOf(TextFieldValue(""))
     var email by mutableStateOf(TextFieldValue(""))
     var password by mutableStateOf(TextFieldValue(""))
+    var showLoading by mutableStateOf(false)
+
 
     private val _registerState = MutableLiveData<ApiResponse<String>>(null)
     val registerState: LiveData<ApiResponse<String>> = _registerState
