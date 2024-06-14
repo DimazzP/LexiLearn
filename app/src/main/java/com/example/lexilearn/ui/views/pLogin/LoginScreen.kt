@@ -19,6 +19,7 @@ import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.EmailTextField
 import com.example.lexilearn.ui.components.GradientLogin
 import com.example.lexilearn.ui.components.LoginTextButton
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.PasswordTextField
 import com.example.lexilearn.ui.theme.ctransTextWhite
 
@@ -89,7 +90,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
             LoginTextButton(
                 textBtn = stringResource(id = R.string.regis),
                 textHelper = stringResource(id = R.string.loginhave) + " ",
-                onclick = { navController.navigate("register") },
+                onclick = {
+                    navController.navigate("register")
+                          },
                 modifier = Modifier.constrainAs(registerTextRef) {
                     bottom.linkTo(parent.bottom, margin = 20.dp)
                     start.linkTo(parent.start, margin = 12.dp)
@@ -97,6 +100,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
                     width = Dimension.wrapContent
                 }
             )
+            LottieProgressDialog(isDialogOpen = viewModel.isDialogOpen) {
+                // This will be called when dialog is dismissed
+            }
         }
     }
 }
