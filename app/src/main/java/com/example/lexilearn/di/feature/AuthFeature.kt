@@ -11,9 +11,9 @@ import org.koin.dsl.module
 
 val authModule = module {
     factory<AuthUseCase> { AuthInteractor(get()) }
-    factory<AuthRepository> { AuthDataStore(get(), get()) }
+    factory<AuthRepository> { AuthDataStore(get(), get(), get()) }
 
-    single { AuthDataStore(get(), get()) }
+    single { AuthDataStore(get(), get(), get()) }
     single { AuthInteractor(get()) }
 
     viewModel { LoginViewModel(get()) }

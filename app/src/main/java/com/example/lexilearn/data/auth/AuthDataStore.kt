@@ -1,5 +1,6 @@
 package com.example.lexilearn.data.auth
 
+import android.content.Context
 import com.example.lexilearn.R
 import com.example.lexilearn.data.auth.dto.LoginRequest
 import com.example.lexilearn.data.auth.dto.RegisterRequest
@@ -17,7 +18,8 @@ import retrofit2.HttpException
 
 class AuthDataStore(
     private val authService: AuthService,
-    private val preferenceManager: PreferenceManager
+    private val preferenceManager: PreferenceManager,
+    private val context: Context
 ) : AuthRepository {
     override fun login(email: String, password: String): Flow<ApiResponse<User>> = flow {
         try {
@@ -36,7 +38,7 @@ class AuthDataStore(
                 emit(ApiResponse.Error(authData.message))
             }
         } catch (e: Exception) {
-            emit(e.toApiResponse())
+            emit(e.toApiResponse(context))
         }
     }
 
@@ -52,7 +54,7 @@ class AuthDataStore(
                 emit(ApiResponse.Error(authData.message))
             }
         } catch(e: Exception) {
-            emit(e.toApiResponse())
+            emit(e.toApiResponse(context))
         }
     }
 }
