@@ -38,15 +38,23 @@ import com.example.lexilearn.ui.theme.cbackground
 import com.example.lexilearn.ui.theme.cprimary
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.ctextWhite
+import com.example.lexilearn.util.PreferenceManager
 import com.github.tehras.charts.line.LineChart
 import com.github.tehras.charts.line.LineChartData
 import com.github.tehras.charts.line.renderer.line.SolidLineDrawer
 import com.github.tehras.charts.line.renderer.point.FilledCircularPointDrawer
 import com.github.tehras.charts.piechart.animation.simpleChartAnimation
+import org.koin.compose.koinInject
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Date
+import java.util.Locale
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(navController: NavController, preferenceManager: PreferenceManager = koinInject(), viewModel: HomeViewModel = viewModel()) {
     val scrollState = rememberScrollState()
+    val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)
+    val currentDate = LocalDate.now()
 
     Column(
         modifier = Modifier
@@ -68,7 +76,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
                     bottom.linkTo(parent.bottom, margin = 24.dp)
                 })
             Text(
-                text = "Name",
+                text = preferenceManager.getName,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = ctextWhite,
@@ -78,7 +86,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
                 }
             )
             Text(
-                text = "Saturday, 25 May 2024",
+                text = formatter.format(currentDate),
                 fontSize = 14.sp,
                 color = ctextWhite,
                 modifier = Modifier.constrainAs(dateRef) {

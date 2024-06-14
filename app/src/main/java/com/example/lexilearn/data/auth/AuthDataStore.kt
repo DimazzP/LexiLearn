@@ -7,6 +7,7 @@ import com.example.lexilearn.data.auth.dto.RegisterRequest
 import com.example.lexilearn.data.auth.model.AuthResponse
 import com.example.lexilearn.data.auth.remote.AuthService
 import com.example.lexilearn.data.lib.ApiResponse
+import com.example.lexilearn.di.KoinModules
 import com.example.lexilearn.domain.auth.mapper.toDomain
 import com.example.lexilearn.domain.auth.model.User
 import com.example.lexilearn.util.PreferenceManager
@@ -33,6 +34,8 @@ class AuthDataStore(
 
                 preferenceManager.setLoginPref(userData!!)
 
+                KoinModules.reloadModule()
+
                 emit(ApiResponse.Success(user!!))
             } else {
                 emit(ApiResponse.Error(authData.message))
@@ -54,6 +57,22 @@ class AuthDataStore(
                 emit(ApiResponse.Error(authData.message))
             }
         } catch(e: Exception) {
+            emit(e.toApiResponse(context))
+        }
+    }
+
+    override fun inspect(): Flow<ApiResponse<User>> = flow {
+        try {
+            emit(ApiResponse.Loading)
+            val response = authService.inspect()
+            val user = response.data.toDomain()
+
+            preferenceManager.setUserPref(user)
+
+            KoinModules.reloadModule()
+            
+            emit(ApiResponse.Success(user))
+        } catch (e: Exception) {
             emit(e.toApiResponse(context))
         }
     }
