@@ -15,4 +15,8 @@ class AuthInteractor(private val repository: AuthRepository) : AuthUseCase {
     override fun register(name: String, email: String, password: String): Flow<ApiResponse<String>> {
         return repository.register(name, email, password).flowOn(Dispatchers.IO)
     }
+
+    override fun inspect(): Flow<ApiResponse<User>> {
+        return repository.inspect().flowOn(Dispatchers.IO)
+    }
 }

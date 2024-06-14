@@ -2,11 +2,13 @@ package com.example.lexilearn.ui.views.pSplashcreen
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -17,19 +19,52 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
+import com.example.lexilearn.data.lib.ApiResponse
+import com.example.lexilearn.di.KoinModules
 import com.example.lexilearn.ui.components.GradientSplash
 import com.example.lexilearn.ui.theme.ctextGray
 import com.example.lexilearn.ui.theme.ctextWhite
+import com.example.lexilearn.util.PreferenceManager
+import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.koinInject
 
 @Composable
-fun SplashScreen(navController: NavController) {
-    LaunchedEffect(Unit) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            navController.navigate("login"){
+fun SplashScreen(navController: NavController, preferenceManager: PreferenceManager = koinInject(), viewModel: SplashViewModel = koinViewModel()) {
+    val state = viewModel.state.observeAsState()
+
+    LaunchedEffect(state.value) {
+        val token = preferenceManager.getToken
+
+        if (token.isNotEmpty()) {
+            viewModel.inspect()
+
+            state.value?.let {
+                when (it) {
+                    ApiResponse.Loading -> Log.d("SplashScreen", "Loading")
+                    is ApiResponse.Success -> {
+                        navController.navigate("home") {
+                            popUpTo("splash") { inclusive = true }
+                        }
+                    }
+
+                    is ApiResponse.Error -> {
+                        Log.d("SplashScreen", it.errorMessage)
+                        navController.navigate("login") {
+                            popUpTo("splash") { inclusive = true }
+                        }
+                        preferenceManager.clearAllPreferences()
+                        KoinModules.reloadModule()
+                    }
+                }
+
+            }
+        } else {
+            navController.navigate("login") {
                 popUpTo("splash") { inclusive = true }
             }
-        }, 500) // Delay for 3 seconds
+        }
     }
+
     GradientSplash {
         ConstraintLayout(
             modifier = Modifier.fillMaxSize()
@@ -86,6 +121,7 @@ fun SplashScreen(navController: NavController) {
         }
     }
 }
+
 @Preview
 @Composable
 fun SplashScreenPreview() {

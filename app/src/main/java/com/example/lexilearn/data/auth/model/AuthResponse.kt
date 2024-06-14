@@ -18,3 +18,9 @@ data class AuthData(
 	val accessToken: String,
 	val user: User
 )
+
+data class InspectResponse(
+	val code: Int,
+	val data: User,
+	val message: String
+)
