@@ -1,6 +1,5 @@
 package com.example.lexilearn.ui.views.pLogin
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -39,21 +38,24 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
     LaunchedEffect(loginState.value) {
         loginState.value?.let {
             when (it) {
-                is ApiResponse.Loading -> Log.d("LoginScreen", "Loading")
+                is ApiResponse.Loading -> viewModel.showLoading = true
                 is ApiResponse.Success -> {
                     Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
                     navController.navigate("home") {
                         popUpTo("login") { inclusive = true }
                     }
                 }
-                is ApiResponse.Error -> Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                is ApiResponse.Error -> {
+                    viewModel.showLoading = false
+                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     GradientLogin {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (txtTitle, txtDesc, emailRef, passwordRef, loginButtonRef, registerTextRef, loadingRef) = createRefs()
+            val (txtTitle, txtDesc, emailRef, passwordRef, loginButtonRef, registerTextRef) = createRefs()
 
             Text(
                 text = stringResource(id = R.string.login),

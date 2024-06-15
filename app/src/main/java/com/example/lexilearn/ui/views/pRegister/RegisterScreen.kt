@@ -1,6 +1,5 @@
 package com.example.lexilearn.ui.views.pRegister
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
@@ -43,14 +42,15 @@ fun RegisterScreen(navController: NavController, viewModel: RegisterViewModel = 
     LaunchedEffect(registerState.value) {
         registerState.value?.let {
             when (it) {
-                is ApiResponse.Loading -> Log.d("RegisterScreen", "Loading")
-
+                is ApiResponse.Loading -> viewModel.showLoading = true
                 is ApiResponse.Success -> {
                     Toast.makeText(context, "Register Success", Toast.LENGTH_SHORT).show()
                     navController.popBackStack()
                 }
-
-                is ApiResponse.Error -> Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                is ApiResponse.Error -> {
+                    viewModel.showLoading = false
+                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
