@@ -16,7 +16,7 @@
 <!--    screen page-->
     <string name="screenyes">Iya</string>
     <string name="screenno">Tidak</string>
-    <string name="screenknow">Tidak Tahu</string>
+    <string name="screennotsure">Tidak Yakin</string>
     <string name="screenselect">Pilih</string>
     <string name="screentitle">Tes Screening</string>
     <string name="screensend">Kirim Test</string>
@@ -61,4 +61,5 @@
     <string name="name_only_contains_letters_and_spaces">Nama hanya boleh berisi huruf dan spasi.</string>
     <string name="password_min_8_characters">Kata sandi minimal 8 karakter</string>
     <string name="invalid_email">Email tidak valid</string>
+    <string name="please_answer_all_questions">Harap jawab semua pertanyaan</string>
 </resources>

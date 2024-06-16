@@ -1,5 +1,6 @@
 package com.example.lexilearn.ui.views.pResultScreening
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,17 +27,32 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.compose.rememberNavController
+import com.example.lexilearn.domain.screening.model.ScreeningAnswerModel
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.theme.cprimary
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.cwhite
 
 @Composable
-fun ResultScreeningScreen(navController: NavController) {
+fun ResultScreeningScreen(navController: NavController, result: Int) {
+    val message = remember { mutableStateOf("") }
+
+    LaunchedEffect(true) {
+        when(result) {
+            in 0..49 -> message.value = "Anda tidak menderita disleksia."
+            in 50..74 -> message.value = "Anda mungkin menderita disleksia."
+            else -> message.value = "Anda menderita disleksia."
+        }
+    }
+
     GradientScreening(
         backButton = { navController.popBackStack() },
         headerText = stringResource(id = R.string.rescreentitle),
@@ -87,7 +103,7 @@ fun ResultScreeningScreen(navController: NavController) {
                                 color = ctextBlack
                             )
                             Text(
-                                text = "66%",
+                                text = "${result}",
                                 fontSize = 50.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = cprimary,
@@ -108,7 +124,7 @@ fun ResultScreeningScreen(navController: NavController) {
                             }) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
-                                    text = "Anda menjawab \"ya\" pada 2 dari 3 pertanyaan yang menunjukkan 66% kemungkinan Anda menderita disleksia.",
+                                    text = message.value,
                                     fontSize = 16.sp,
                                     color = ctextBlack,
                                     textAlign = TextAlign.Center,
@@ -127,13 +143,16 @@ fun ResultScreeningScreen(navController: NavController) {
             }
             CustomButton(
                 text = stringResource(id = R.string.close),
-                onClick = { },
-                modifier = Modifier.padding(horizontal = 24.dp, vertical = 12.dp).constrainAs(buttonRef) {
-                    bottom.linkTo(parent.bottom, margin = 12.dp)
-                    end.linkTo(parent.end, margin = 12.dp)
-                    start.linkTo(parent.start, margin = 12.dp)
-                    width = Dimension.fillToConstraints
-                })
+                onClick = { navController.popBackStack() },
+                modifier = Modifier
+                    .padding(horizontal = 24.dp, vertical = 12.dp)
+                    .constrainAs(buttonRef) {
+                        bottom.linkTo(parent.bottom, margin = 12.dp)
+                        end.linkTo(parent.end, margin = 12.dp)
+                        start.linkTo(parent.start, margin = 12.dp)
+                        width = Dimension.fillToConstraints
+                    }
+            )
         }
     }
 }
@@ -142,5 +161,5 @@ fun ResultScreeningScreen(navController: NavController) {
 @Composable
 fun ResultScreeningScreenPreview() {
     val navController = rememberNavController()
-    ResultScreeningScreen(navController = navController)
+    ResultScreeningScreen(navController = navController, result = 50)
 }
