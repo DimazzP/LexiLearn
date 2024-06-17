@@ -19,8 +19,8 @@ class SpellViewModel: ViewModel() {
 
 
     var dataQuiz = mutableStateListOf(
-        ModelSpell(1, false, "r ", showCard = false),
-        ModelSpell(2, false, "i", showCard = false),
+        ModelSpell(1, true, "?", showCard = false),
+        ModelSpell(2, false, "?", showCard = false),
         ModelSpell(3, true, "?", showCard = false),
         ModelSpell(4, false, "e", showCard = false),
     )

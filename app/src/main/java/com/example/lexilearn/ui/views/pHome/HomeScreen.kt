@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
+import com.example.lexilearn.di.KoinModules
 import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.ButtonHome
 import com.example.lexilearn.ui.components.CircleAvatar
@@ -95,12 +96,19 @@ fun HomeScreen(navController: NavController, preferenceManager: PreferenceManage
                     start.linkTo(titleRef.start)
                 }
             )
-            IconButton(onClick = {}, modifier = Modifier.constrainAs(settingRef) {
+            IconButton(onClick = {
+                preferenceManager.clearAllPreferences()
+                KoinModules.reloadModule()
+
+                navController.navigate("login") {
+                    popUpTo("home") { inclusive = true }
+                }
+            }, modifier = Modifier.constrainAs(settingRef) {
                 end.linkTo(parent.end, margin = 16.dp)
                 top.linkTo(circleRef.top)
             }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_setting),
+                    painter = painterResource(id = R.drawable.ic_exit),
                     tint = ctextWhite,
                     contentDescription = null,
                     modifier = Modifier
@@ -162,7 +170,7 @@ fun HomeScreen(navController: NavController, preferenceManager: PreferenceManage
                     .fillMaxWidth()
             ) {
                 val (quizRef, alphabetRef, screeningRef, newsRef) = createRefs()
-                ButtonHome(onClick = { navController.navigate("read") }, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("quiz") }, modifier = Modifier
                     .constrainAs(quizRef) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)

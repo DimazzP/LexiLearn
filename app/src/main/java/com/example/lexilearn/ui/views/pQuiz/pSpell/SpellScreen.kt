@@ -1,6 +1,7 @@
 package com.example.lexilearn.ui.views.pQuiz.pSpell
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -108,6 +109,7 @@ fun SpellScreen(navController: NavController, viewModel: SpellViewModel = viewMo
                             ) {
                                 viewModel.dataQuiz.forEach { dt ->
                                     val id = dt.id
+                                    Log.d("dataQuizID", id.toString())
                                     if (!viewModel.boxRectDragable.containsKey(id))
                                         viewModel.boxRectDragable[id] = Rect.Zero
                                     if (!viewModel.boxRectQuiz.containsKey(id))
