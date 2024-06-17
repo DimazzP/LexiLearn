@@ -54,7 +54,8 @@ import kotlin.math.roundToInt
 @Composable
 fun ReadScreen(viewModel: ReadViewModel = viewModel()) {
     val dataQuiz = viewModel.dataQuiz.observeAsState()
-    val listAnswer = viewModel.dataAnswer.observeAsState()
+    val dataAnswer = viewModel.dataAnswer.observeAsState()
+    val answerList = viewModel.answerList.observeAsState()
 
     val maxWidthR = 280.dp
     val maxHeightR = 60.dp
@@ -238,7 +239,7 @@ fun ReadScreen(viewModel: ReadViewModel = viewModel()) {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                listAnswer.value?.mapIndexed() { id, item ->
+                dataAnswer.value?.mapIndexed() { id, item ->
                     if (!viewModel.boxRectAnswer.containsKey(id))
                         viewModel.boxRectAnswer[id] = Rect.Zero
                     if (!viewModel.answerXOffset.containsKey(id))

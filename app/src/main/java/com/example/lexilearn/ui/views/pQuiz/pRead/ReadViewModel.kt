@@ -33,6 +33,9 @@ class ReadViewModel : ViewModel() {
     private val _answer = MutableLiveData<List<ModelAnswerRead>>(null)
     val dataAnswer: LiveData<List<ModelAnswerRead>> = _answer
 
+    private val _answerList = MutableLiveData<List<String>>(null)
+    val answerList: LiveData<List<String>> = _answerList
+
     val quizXOffset: SnapshotStateMap<Int, Float> = mutableStateMapOf()
     val quizYOffset: SnapshotStateMap<Int, Float> = mutableStateMapOf()
 
