@@ -66,6 +66,12 @@ class QuizViewModel(private val useCase: QuizUseCase, private val context: Conte
     private var textToSpeech: TextToSpeech? = null
 
     fun playSound(text: String, speed: Float) {
+        textToSpeech?.isSpeaking?.let { isSpeaking ->
+            if (isSpeaking) {
+                textToSpeech?.stop()
+            }
+        }
+
         textToSpeech = TextToSpeech(context) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 textToSpeech?.let { txtToSpeech ->
