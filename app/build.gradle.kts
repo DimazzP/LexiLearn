@@ -75,6 +75,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
     implementation("com.github.tehras:charts:0.2.4-alpha")
+    implementation ("com.airbnb.android:lottie-compose:4.0.0")
     implementation("com.google.accompanist:accompanist-flowlayout:0.24.9-beta")
     implementation("com.airbnb.android:lottie-compose:4.0.0")
     implementation("com.google.accompanist:accompanist-placeholder:0.24.13-rc")
