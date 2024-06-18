@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
 import com.example.lexilearn.data.lib.ApiResponse
+import com.example.lexilearn.di.KoinModules
 import com.example.lexilearn.ui.components.CircleAvatar
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.LottieProgressDialog
@@ -356,10 +357,12 @@ fun ProfileScreen(
                     Button(
                         onClick = ({
                             preferenceManager.clearAllPreferences()
+                            KoinModules.reloadModule()
+
+                            navController.popBackStack()
+
                             navController.navigate("login") {
-                                popUpTo(navController.graph.startDestinationId) {
-                                    inclusive = true
-                                }
+                                popUpTo("profile") { inclusive = true }
                             }
                         }),
                         shape = RoundedCornerShape(12.dp),
