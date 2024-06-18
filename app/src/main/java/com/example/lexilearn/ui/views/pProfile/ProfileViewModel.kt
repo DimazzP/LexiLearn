@@ -42,10 +42,8 @@ class ProfileViewModel(private val useCase: AuthUseCase) : ViewModel() {
     val changePasswordState: MutableLiveData<ApiResponse<String>> = _changePasswordState
 
     fun changePassword() {
-        Log.d("checkValue", "coba panggil1")
         viewModelScope.launch {
-            Log.d("checkValue", "coba panggil")
-            useCase.updatePassword(current_password.text.trim(), new_password.text.trim(), new_password.text.trim())
+            useCase.updatePassword(current_password.text.trim(), new_password.text.trim(), confirm_password.text.trim())
                 .collect {
                     _changePasswordState.value = it
                 }
