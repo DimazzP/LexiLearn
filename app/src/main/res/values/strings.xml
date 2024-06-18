@@ -62,4 +62,9 @@
     <string name="password_min_8_characters">Kata sandi minimal 8 karakter</string>
     <string name="invalid_email">Email tidak valid</string>
     <string name="please_answer_all_questions">Harap jawab semua pertanyaan</string>
+    <string name="verylowDyslexia">Very low chance of dyslexia.</string>
+    <string name="lowDyslexia">Low probability of dyslexia.</string>
+    <string name="moderateDyslexia">Moderate dyslexia likely. It is recommended to consult an expert.</string>
+    <string name="highDyslexia">High probability of dyslexia. It is highly recommended to consult an expert.</string>
+    <string name="veryhighDyslexia">Very high chance of dyslexia. It is highly recommended to consult an expert.</string>
 </resources>
