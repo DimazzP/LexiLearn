@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class QuizDataStore(private val service: QuizService, private val context: Context) : QuizRepository {
-    override fun getQuiz(): Flow<ApiResponse<QuizModel>> = flow {
+    override fun getQuiz(): Flow<ApiResponse<List<QuizModel>>> = flow {
         try {
             emit(ApiResponse.Loading)
             val response = service.getQuiz()

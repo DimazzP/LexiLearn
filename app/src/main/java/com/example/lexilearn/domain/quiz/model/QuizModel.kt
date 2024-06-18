@@ -5,10 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class QuizModel(
+    val choiceType: String,
+    val question: String,
     val id: Int,
     val type: String,
-    val question: String,
-    val answerList: List<String>,
-    val answerKey: String,
-    val answerType: String,
+    val choices: List<String>
 ) : Parcelable

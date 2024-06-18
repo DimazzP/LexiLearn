@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 
 class QuizInteractor(private val quizRepository: QuizRepository) : QuizUseCase {
-    override fun getQuiz(): Flow<ApiResponse<QuizModel>> {
+    override fun getQuiz(): Flow<ApiResponse<List<QuizModel>>> {
         return quizRepository.getQuiz().flowOn(Dispatchers.IO)
     }
 }

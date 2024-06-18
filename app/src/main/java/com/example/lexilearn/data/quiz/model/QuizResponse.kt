@@ -7,27 +7,18 @@ data class QuizResponse(
 	val code: Int,
 
 	@field:SerializedName("data")
-	val data: QuizData,
+	val data: List<QuizData>,
 
 	@field:SerializedName("message")
 	val message: String
 )
 
 data class QuizData(
-	@field:SerializedName("answerList")
-	val answerList: List<String>,
-
-	@field:SerializedName("answerKey")
-	val answerKey: String,
-
-	@field:SerializedName("createdAt")
-	val createdAt: String,
+	@field:SerializedName("choiceType")
+	val choiceType: String,
 
 	@field:SerializedName("question")
 	val question: String,
-
-	@field:SerializedName("answerType")
-	val answerType: String,
 
 	@field:SerializedName("id")
 	val id: Int,
@@ -35,6 +26,6 @@ data class QuizData(
 	@field:SerializedName("type")
 	val type: String,
 
-	@field:SerializedName("updatedAt")
-	val updatedAt: String
+	@field:SerializedName("choices")
+	val choices: List<String>
 )
