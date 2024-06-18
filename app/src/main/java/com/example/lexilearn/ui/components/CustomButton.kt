@@ -21,9 +21,11 @@ import com.example.lexilearn.ui.theme.ctextBlack
 fun CustomButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Button(
+        enabled = enabled,
         onClick = onClick,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(

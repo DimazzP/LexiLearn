@@ -33,6 +33,7 @@ import com.example.lexilearn.R
 import com.example.lexilearn.ui.components.CircleAvatar
 import com.example.lexilearn.ui.components.CustomButton
 import com.example.lexilearn.ui.components.EmailTextField
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.NameTextField
 import com.example.lexilearn.ui.components.PasswordTextField
 import com.example.lexilearn.ui.theme.caccent
@@ -208,6 +209,9 @@ fun ProfileScreen(navController: NavController, viewModel: ProfileViewModel = vi
                         width = Dimension.fillToConstraints
                     })
             }
+        }
+        LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+            viewModel.showLoading = false
         }
     }
 }

@@ -1,9 +1,11 @@
 package com.example.lexilearn.ui.views.pQuiz.pRead
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.unit.Dp
@@ -13,6 +15,7 @@ import com.example.lexilearn.domain.models.ModelWords
 
 class ReadViewModel: ViewModel() {
     var rectColumnAnswer = mutableStateOf(Rect.Zero)
+    var showLoading by mutableStateOf(false)
 
     val cardWidth: SnapshotStateMap<Int, Dp> = mutableStateMapOf()
     val cardHeight: SnapshotStateMap<Int, Dp> = mutableStateMapOf()

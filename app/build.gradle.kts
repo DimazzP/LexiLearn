@@ -1,7 +1,14 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
+
+val localProperties = Properties()
+localProperties.load(File(rootProject.projectDir, "local.properties").inputStream())
 
 android {
     namespace = "com.example.lexilearn"
@@ -13,6 +20,8 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "baseUrl", "\"${localProperties.getProperty("base_url")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -38,6 +47,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -67,12 +77,26 @@ dependencies {
     implementation("com.github.tehras:charts:0.2.4-alpha")
     implementation ("com.airbnb.android:lottie-compose:4.0.0")
     implementation("com.google.accompanist:accompanist-flowlayout:0.24.9-beta")
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
     implementation("com.google.accompanist:accompanist-placeholder:0.24.13-rc")
 //    implementation("com.google.accompanist:accompanist-navigation-material:0.24.13-rc")
     implementation("io.coil-kt:coil-compose:2.1.0")
 
     implementation("androidx.media3:media3-common:1.3.1")
     implementation("androidx.draganddrop:draganddrop:1.0.0")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+//    koin compose
+    implementation("io.insert-koin:koin-core:3.5.0")
+    implementation("io.insert-koin:koin-android:3.5.0")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.0")
+
+//    livedata
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.8")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

@@ -9,6 +9,7 @@
     <string name="password">Kata Sandi</string>
     <string name="fullname">Nama Lengkap</string>
     <string name="close">Tutup</string>
+    <string name="wait">Tunggu Sebentar...</string>
     <string name="next">Selanjutnya</string>
 
 
@@ -54,4 +55,10 @@
     <string name="change_password">Ubah Sandi</string>
     <string name="btn_change">Ubah</string>
 
+<!--    Error Message -->
+    <string name="unknown_error">Unknown error</string>
+    <string name="email_and_password_must_be_filled">Email dan password tidak boleh kosong</string>
+    <string name="name_only_contains_letters_and_spaces">Nama hanya boleh berisi huruf dan spasi.</string>
+    <string name="password_min_8_characters">Kata sandi minimal 8 karakter</string>
+    <string name="invalid_email">Email tidak valid</string>
 </resources>

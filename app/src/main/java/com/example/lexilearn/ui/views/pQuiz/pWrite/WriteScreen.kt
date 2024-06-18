@@ -39,6 +39,7 @@ import com.example.lexilearn.ui.components.MyShadowCard
 import com.example.lexilearn.ui.theme.ctextGray
 import com.example.lexilearn.ui.theme.ctextWhite
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.lexilearn.ui.components.LottieProgressDialog
 
 
 @Composable
@@ -205,6 +206,9 @@ fun WriteScreen(navController: NavController, viewModel: WriteViewModel = viewMo
 //                            )
 //                        }
                     }
+                }
+                LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+                    viewModel.showLoading = false
                 }
             }
         }

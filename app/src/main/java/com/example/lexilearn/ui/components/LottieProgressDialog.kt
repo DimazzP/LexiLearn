@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -44,7 +45,7 @@ fun LottieProgressDialog(isDialogOpen: Boolean, onDismissRequest: () -> Unit) {
                         modifier = Modifier.size(100.dp)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = "Tunggu Sebentar", fontWeight = FontWeight.SemiBold)
+                    Text(text = stringResource(id = R.string.wait), fontWeight = FontWeight.SemiBold)
                 }
             }
         }

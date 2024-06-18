@@ -42,6 +42,7 @@ import com.example.lexilearn.ui.components.CardQuiz
 import com.example.lexilearn.ui.components.DraggableAnswerCard
 import com.example.lexilearn.ui.components.GradientQuiz
 import com.example.lexilearn.ui.components.HorizontalLine
+import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.MyShadowCard
 import com.example.lexilearn.ui.theme.ctextBlack
 import com.example.lexilearn.ui.theme.ctextWhite
@@ -313,7 +314,9 @@ fun ReadScreen(navController: NavController, viewModel: ReadViewModel = viewMode
                     }
 
                 }
-
+                LottieProgressDialog(isDialogOpen = viewModel.showLoading) {
+                    viewModel.showLoading = false
+                }
                 ButtonNext(
                     onclick = { navController.navigate("spell")
                     },
