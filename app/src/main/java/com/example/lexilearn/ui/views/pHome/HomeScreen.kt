@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
+import com.example.lexilearn.di.KoinModules
 import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.ButtonHome
 import com.example.lexilearn.ui.components.CircleAvatar
@@ -168,7 +169,7 @@ fun HomeScreen(
                     .fillMaxWidth()
             ) {
                 val (quizRef, alphabetRef, screeningRef, newsRef) = createRefs()
-                ButtonHome(onClick = { navController.navigate("read") }, modifier = Modifier
+                ButtonHome(onClick = { navController.navigate("quiz") }, modifier = Modifier
                     .constrainAs(quizRef) {
                         start.linkTo(parent.start)
                         top.linkTo(parent.top)

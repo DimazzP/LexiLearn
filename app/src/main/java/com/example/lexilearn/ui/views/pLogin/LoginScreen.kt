@@ -133,7 +133,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinVi
             LoginTextButton(
                 textBtn = stringResource(id = R.string.regis),
                 textHelper = stringResource(id = R.string.loginhave) + " ",
-                onclick = { navController.navigate("register") },
+                onclick = {
+                    navController.navigate("register")
+                          },
                 modifier = Modifier.constrainAs(registerTextRef) {
                     bottom.linkTo(parent.bottom, margin = 20.dp)
                     start.linkTo(parent.start, margin = 12.dp)

@@ -1,6 +1,7 @@
 package com.example.lexilearn.ui.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text

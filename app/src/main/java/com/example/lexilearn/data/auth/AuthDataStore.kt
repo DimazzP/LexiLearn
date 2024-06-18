@@ -31,18 +31,14 @@ class AuthDataStore(
             val payload = LoginRequest(email, password)
             val authData = authService.login(payload)
 
-            if (authData.code == 200) {
-                val userData = authData.data
-                val user = userData?.user?.toDomain()
+            val userData = authData.data
+            val user = userData?.user?.toDomain()
 
-                preferenceManager.setLoginPref(userData!!)
+            preferenceManager.setLoginPref(userData!!)
 
-                KoinModules.reloadModule()
+            KoinModules.reloadModule()
 
-                emit(ApiResponse.Success(user!!))
-            } else {
-                emit(ApiResponse.Error(authData.message))
-            }
+            emit(ApiResponse.Success(user!!))
         } catch (e: Exception) {
             emit(e.toApiResponse(context))
         }
@@ -54,11 +50,7 @@ class AuthDataStore(
             val payload = RegisterRequest(name, email, password)
             val authData = authService.register(payload)
 
-            if (authData.code == 201) {
-                emit(ApiResponse.Success(authData.message))
-            } else {
-                emit(ApiResponse.Error(authData.message))
-            }
+            emit(ApiResponse.Success(authData.message))
         } catch(e: Exception) {
             emit(e.toApiResponse(context))
         }
@@ -70,20 +62,15 @@ class AuthDataStore(
             val payload = ProfileRequest(name, confirm_password)
             val authData = authService.updateProfile(payload)
 
-            if (authData.code == 200) {
-                val userData = authData.data
-                val user = userData
+            val userData = authData.data
+            val user = userData
 
-                preferenceManager.setUserPref(user!!)
+            preferenceManager.setUserPref(user!!)
 
-                KoinModules.reloadModule()
+            KoinModules.reloadModule()
 
-                emit(ApiResponse.Success(user))
-            } else {
-                emit(ApiResponse.Error(authData.message))
-            }
+            emit(ApiResponse.Success(user))
         } catch(e: Exception) {
-            Log.d("cobadulu", e.toString())
             emit(e.toApiResponse(context))
         }
     }
@@ -94,16 +81,10 @@ class AuthDataStore(
         confirm_password: String
     ): Flow<ApiResponse<String>> = flow{
         try {
-            Log.d("checkValue", "test aja")
             emit(ApiResponse.Loading)
             val payload = PasswordRequest(current_password, new_password, confirm_password)
             val authData = authService.changePassword(payload)
-            Log.d("checkValue", authData.toString())
-            if (authData.code == 200) {
-                emit(ApiResponse.Success(authData.message))
-            } else {
-                emit(ApiResponse.Error(authData.message))
-            }
+            emit(ApiResponse.Success(authData.message))
         } catch(e: Exception) {
             emit(e.toApiResponse(context))
         }
@@ -118,7 +99,7 @@ class AuthDataStore(
             preferenceManager.setUserPref(user)
 
             KoinModules.reloadModule()
-            
+
             emit(ApiResponse.Success(user))
         } catch (e: Exception) {
             emit(e.toApiResponse(context))
