@@ -31,7 +31,8 @@ fun ButtonNext(onclick: () -> Unit, text: String, painter: Painter, modifier: Mo
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = caccent // Background color
-        ), modifier = modifier
+        ),
+        modifier = modifier
             .border(2.dp, caccent, RoundedCornerShape(12.dp))
             .background(caccent, RoundedCornerShape(12.dp))
     )

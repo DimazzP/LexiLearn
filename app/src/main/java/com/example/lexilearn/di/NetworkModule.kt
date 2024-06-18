@@ -2,6 +2,7 @@ package com.example.lexilearn.di
 
 import com.example.lexilearn.data.auth.remote.AuthService
 import com.example.lexilearn.data.lib.HeaderInterceptor
+import com.example.lexilearn.data.screening.remote.ScreeningService
 import com.example.lexilearn.util.ConstVar
 import com.example.lexilearn.util.PreferenceManager
 import okhttp3.Interceptor
@@ -30,7 +31,8 @@ val networkModule = module {
             .build()
     }
 
-    single { provideGenreService(get()) }
+    single { provideAuthService(get()) }
+    single { provideScreeningService(get()) }
 }
 
 private fun getHeaderInterceptor(preferenceManager: PreferenceManager): Interceptor {
@@ -40,5 +42,5 @@ private fun getHeaderInterceptor(preferenceManager: PreferenceManager): Intercep
     return HeaderInterceptor(headers, preferenceManager)
 }
 
-private fun provideGenreService(retrofit: Retrofit): AuthService =
-    retrofit.create(AuthService::class.java)
+private fun provideAuthService(retrofit: Retrofit): AuthService = retrofit.create(AuthService::class.java)
+private fun provideScreeningService(retrofit: Retrofit): ScreeningService = retrofit.create(ScreeningService::class.java)

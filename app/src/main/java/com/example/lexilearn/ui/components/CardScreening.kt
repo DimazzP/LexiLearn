@@ -30,15 +30,19 @@ import com.example.lexilearn.ui.theme.ctextGray
 
 
 @Composable
-fun CardScreening(question: String, selectedOption: Int?, onOptionSelected: (Int) -> Unit) {
+fun CardScreening(question: String, selectedOption: String?, onOptionSelected: (String) -> Unit) {
 
     // r.string
     val textYes = stringResource(id = R.string.screenyes)
     val textNo = stringResource(id = R.string.screenno)
-    val textKnow = stringResource(id = R.string.screenknow)
+    val textNotSure = stringResource(id = R.string.screennotsure)
 
-    val getSelect = selectedOption ?: 0
-    var selectedOption by remember { mutableIntStateOf(getSelect) }
+    val keyYes = "yes"
+    val keyNo = "no"
+    val keyNotSure = "not_sure"
+
+    val getSelect = selectedOption ?: keyNo
+    var selectedOption by remember { mutableStateOf(getSelect) }
 
     Card(
         shape = MaterialTheme.shapes.medium,
@@ -67,31 +71,31 @@ fun CardScreening(question: String, selectedOption: Int?, onOptionSelected: (Int
             OptionItem(
                 text = textYes,
                 iconColor = Color(0xFF4CAF50),
-                isSelected = selectedOption == 1,
+                isSelected = selectedOption == keyYes,
                 painter = painterResource(id = R.drawable.cl_check),
                 onSelect = {
-                    selectedOption = 1
-                    onOptionSelected(1)
+                    selectedOption = keyYes
+                    onOptionSelected(keyYes)
                 }
             )
             OptionItem(
                 text = textNo,
                 iconColor = Color(0xFFF44336),
-                isSelected = selectedOption == 2,
+                isSelected = selectedOption == keyNo,
                 painter = painterResource(id = R.drawable.cl_close),
                 onSelect = {
-                    selectedOption = 2
-                    onOptionSelected(2)
+                    selectedOption = keyNo
+                    onOptionSelected(keyNo)
                 }
             )
             OptionItem(
-                text = textKnow,
+                text = textNotSure,
                 iconColor = Color(0xFFFFC107),
-                isSelected = selectedOption == 3,
+                isSelected = selectedOption == keyNotSure,
                 painter = painterResource(id = R.drawable.cl_helper),
                 onSelect = {
-                    selectedOption = 3
-                    onOptionSelected(3)
+                    selectedOption = keyNotSure
+                    onOptionSelected(keyNotSure)
                 }
             )
         }
@@ -103,7 +107,7 @@ fun CardScreening(question: String, selectedOption: Int?, onOptionSelected: (Int
 fun CardScreeningPreview() {
     CardScreening(
         question = "Is this a screening question?",
-        selectedOption = 1, // Simulate a selected option
+        selectedOption = "", // Simulate a selected option
         onOptionSelected = {}
     )
 }
