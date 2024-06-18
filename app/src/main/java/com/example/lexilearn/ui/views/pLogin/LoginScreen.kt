@@ -1,6 +1,8 @@
 package com.example.lexilearn.ui.views.pLogin
 
+import android.app.Activity
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +36,10 @@ import org.koin.androidx.compose.koinViewModel
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel = koinViewModel()) {
     val loginState = viewModel.loginState.observeAsState()
     val context = LocalContext.current
+
+    BackHandler {
+        (context as? Activity)?.finishAffinity()
+    }
 
     LaunchedEffect(loginState.value) {
         loginState.value?.let {

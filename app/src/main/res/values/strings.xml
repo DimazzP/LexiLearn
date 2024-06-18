@@ -7,6 +7,9 @@
     <string name="strdefault">default</string>
     <string name="email">E-mail</string>
     <string name="password">Kata Sandi</string>
+    <string name="current_password">Sandi Lama</string>
+    <string name="new_password">Sandi Baru</string>
+    <string name="confirm_password">Konfirmasi Sandi Baru</string>
     <string name="fullname">Nama Lengkap</string>
     <string name="close">Tutup</string>
     <string name="wait">Tunggu Sebentar...</string>
@@ -54,6 +57,9 @@
     <string name="profile">Profil</string>
     <string name="change_password">Ubah Sandi</string>
     <string name="btn_change">Ubah</string>
+    <string name="btn_change_profile">Ubah Profil</string>
+    <string name="btn_change_password">Ubah Kata Sandi</string>
+    <string name="btn_logout">Keluar</string>
 
 <!--    Error Message -->
     <string name="unknown_error">Unknown error</string>
