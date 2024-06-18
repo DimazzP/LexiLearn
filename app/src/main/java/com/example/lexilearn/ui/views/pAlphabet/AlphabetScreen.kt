@@ -42,11 +42,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.ui.components.BackButton
 import com.example.lexilearn.ui.components.LottieProgressDialog
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AlphabetScreen(navController: NavController) {
+fun AlphabetScreen(navController: NavController, viewModel: AlphabetViewModel = koinViewModel()) {
     val context = navController.context
-    val viewModel = AlphabetViewModel()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(

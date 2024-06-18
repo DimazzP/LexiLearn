@@ -1,6 +1,7 @@
 package com.example.lexilearn.util
 
 import android.content.Context
+import android.util.Log
 import com.example.lexilearn.R
 import com.example.lexilearn.data.auth.model.AuthResponse
 import com.example.lexilearn.data.lib.ApiResponse
@@ -14,7 +15,13 @@ fun Exception.toApiResponse(context: Context): ApiResponse.Error {
                 this.response()?.errorBody()?.string(),
                 AuthResponse::class.java
             )
-            ApiResponse.Error(errorMessage.message)
+
+            if (errorMessage.errors.isNullOrEmpty()) {
+                ApiResponse.Error(errorMessage.message)
+            } else {
+                val message = errorMessage.errors[0]
+                ApiResponse.Error(message)
+            }
         }
 
         else -> {
