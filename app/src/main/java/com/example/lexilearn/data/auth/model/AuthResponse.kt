@@ -3,6 +3,7 @@ package com.example.lexilearn.data.auth.model
 data class AuthResponse(
 	val code: Int,
 	val data: AuthData?,
+	val errors: List<String>?,
 	val message: String
 )
 
