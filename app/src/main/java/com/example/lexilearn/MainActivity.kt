@@ -16,6 +16,7 @@ import com.example.lexilearn.domain.screening.model.ScreeningAnswerModel
 import com.example.lexilearn.ui.views.pAlphabet.AlphabetScreen
 import com.example.lexilearn.ui.views.pHome.HomeScreen
 import com.example.lexilearn.ui.views.pLogin.LoginScreen
+import com.example.lexilearn.ui.views.pProfile.ProfileScreen
 import com.example.lexilearn.ui.views.pQuiz.QuizScreen
 //import com.example.lexilearn.ui.views.pQuiz.pRead.DragAndDropExample
 import com.example.lexilearn.ui.views.pRegister.RegisterScreen
@@ -71,5 +72,6 @@ fun MyApp() {
             ResultScreeningScreen(navController, result!!)
         }
         composable("alphabet") { AlphabetScreen(navController)}
+        composable("profile") { ProfileScreen(navController) }
     }
 }

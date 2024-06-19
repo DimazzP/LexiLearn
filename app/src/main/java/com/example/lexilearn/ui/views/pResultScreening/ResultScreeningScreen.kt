@@ -32,6 +32,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.compose.rememberNavController
@@ -44,12 +45,15 @@ import com.example.lexilearn.ui.theme.cwhite
 @Composable
 fun ResultScreeningScreen(navController: NavController, result: Int) {
     val message = remember { mutableStateOf("") }
+    val context = LocalContext.current
 
     LaunchedEffect(true) {
         when(result) {
-            in 0..49 -> message.value = "Anda tidak menderita disleksia."
-            in 50..74 -> message.value = "Anda mungkin menderita disleksia."
-            else -> message.value = "Anda menderita disleksia."
+            in 0..20 -> message.value = context.getString(R.string.verylowDyslexia)
+            in 21..40 -> message.value = context.getString(R.string.lowDyslexia)
+            in 41..60 -> message.value = context.getString(R.string.moderateDyslexia)
+            in 61..80 -> message.value = context.getString(R.string.highDyslexia)
+            in 81..100 -> message.value = context.getString(R.string.veryhighDyslexia)
         }
     }
 
@@ -103,7 +107,7 @@ fun ResultScreeningScreen(navController: NavController, result: Int) {
                                 color = ctextBlack
                             )
                             Text(
-                                text = "${result}",
+                                text = "${result}%",
                                 fontSize = 50.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = cprimary,

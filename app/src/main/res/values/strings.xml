@@ -7,6 +7,9 @@
     <string name="strdefault">default</string>
     <string name="email">E-mail</string>
     <string name="password">Kata Sandi</string>
+    <string name="current_password">Sandi Lama</string>
+    <string name="new_password">Sandi Baru</string>
+    <string name="confirm_password">Konfirmasi Sandi Baru</string>
     <string name="fullname">Nama Lengkap</string>
     <string name="close">Tutup</string>
     <string name="wait">Tunggu Sebentar...</string>
@@ -54,6 +57,9 @@
     <string name="profile">Profil</string>
     <string name="change_password">Ubah Sandi</string>
     <string name="btn_change">Ubah</string>
+    <string name="btn_change_profile">Ubah Profil</string>
+    <string name="btn_change_password">Ubah Kata Sandi</string>
+    <string name="btn_logout">Keluar</string>
 
 <!--    Error Message -->
     <string name="unknown_error">Unknown error</string>
@@ -62,9 +68,13 @@
     <string name="password_min_8_characters">Kata sandi minimal 8 karakter</string>
     <string name="invalid_email">Email tidak valid</string>
     <string name="please_answer_all_questions">Harap jawab semua pertanyaan</string>
-
     <string name="answered_quiz_counter">You have answered %1$d out of %2$d questions.</string>
     <string name="submit">Kirim</string>
     <string name="quiz_score">Quiz Skor</string>
     <string name="resquiztitle">Hasil Kuis</string>
+    <string name="verylowDyslexia">Very low chance of dyslexia.</string>
+    <string name="lowDyslexia">Low probability of dyslexia.</string>
+    <string name="moderateDyslexia">Moderate dyslexia likely. It is recommended to consult an expert.</string>
+    <string name="highDyslexia">High probability of dyslexia. It is highly recommended to consult an expert.</string>
+    <string name="veryhighDyslexia">Very high chance of dyslexia. It is highly recommended to consult an expert.</string>
 </resources>

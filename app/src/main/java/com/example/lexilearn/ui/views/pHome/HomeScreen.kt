@@ -53,7 +53,11 @@ import java.util.Date
 import java.util.Locale
 
 @Composable
-fun HomeScreen(navController: NavController, preferenceManager: PreferenceManager = koinInject(), viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    preferenceManager: PreferenceManager = koinInject(),
+    viewModel: HomeViewModel = viewModel()
+) {
     val scrollState = rememberScrollState()
     val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)
     val currentDate = LocalDate.now()
@@ -96,19 +100,14 @@ fun HomeScreen(navController: NavController, preferenceManager: PreferenceManage
                     start.linkTo(titleRef.start)
                 }
             )
-            IconButton(onClick = {
-                preferenceManager.clearAllPreferences()
-                KoinModules.reloadModule()
-
-                navController.navigate("login") {
-                    popUpTo("home") { inclusive = true }
-                }
-            }, modifier = Modifier.constrainAs(settingRef) {
-                end.linkTo(parent.end, margin = 16.dp)
-                top.linkTo(circleRef.top)
-            }) {
+            IconButton(
+                onClick = { navController.navigate("profile") },
+                modifier = Modifier.constrainAs(settingRef) {
+                    end.linkTo(parent.end, margin = 16.dp)
+                    top.linkTo(circleRef.top)
+                }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_exit),
+                    painter = painterResource(id = R.drawable.ic_setting),
                     tint = ctextWhite,
                     contentDescription = null,
                     modifier = Modifier
@@ -246,7 +245,7 @@ fun HomeScreen(navController: NavController, preferenceManager: PreferenceManage
                         )
                     }
                 }
-                ButtonHome(onClick = {  }, modifier = Modifier
+                ButtonHome(onClick = { }, modifier = Modifier
                     .constrainAs(newsRef) {
                         top.linkTo(quizRef.bottom)
                         end.linkTo(parent.end)
