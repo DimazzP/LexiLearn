@@ -2,17 +2,11 @@ package com.example.lexilearn.ui.views.pQuiz
 
 import android.content.Context
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateMap
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,6 +15,7 @@ import com.example.lexilearn.data.lib.ApiResponse
 import com.example.lexilearn.domain.quiz.QuizUseCase
 import com.example.lexilearn.domain.quiz.model.AnsweredQuizModel
 import com.example.lexilearn.domain.quiz.model.QuizModel
+import com.example.lexilearn.domain.quiz.model.QuizResultModel
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -31,8 +26,10 @@ class QuizViewModel(private val useCase: QuizUseCase, private val context: Conte
     private val _quiz = MutableLiveData<ApiResponse<List<QuizModel>>>(null)
     val quiz: LiveData<ApiResponse<List<QuizModel>>> = _quiz
 
-    private val _answeredQuiz = MutableLiveData<List<AnsweredQuizModel>>(null)
-    val answeredQuiz: LiveData<List<AnsweredQuizModel>> = _answeredQuiz
+    private val _quizAnswerResult = MutableLiveData<ApiResponse<QuizResultModel>>(null)
+    val quizAnswerResult: LiveData<ApiResponse<QuizResultModel>> = _quizAnswerResult
+    
+    private val _answeredQuiz = mutableListOf<AnsweredQuizModel>()
 
     val selectedChoice = mutableStateListOf<String>()
 
@@ -46,10 +43,7 @@ class QuizViewModel(private val useCase: QuizUseCase, private val context: Conte
     }
 
     fun nextQuiz(questionId: Int, choice: List<String>, send: Boolean) {
-        _answeredQuiz.value = _answeredQuiz.value?.toMutableList()?.apply {
-            add(AnsweredQuizModel(questionId, choice))
-        } ?: listOf(AnsweredQuizModel(questionId, choice))
-
+        _answeredQuiz.add(AnsweredQuizModel(questionId, choice.toList()))
         selectedChoice.clear()
 
         if (send) {
@@ -60,7 +54,13 @@ class QuizViewModel(private val useCase: QuizUseCase, private val context: Conte
     }
 
     fun sendQuiz() {
-        Log.d("QuizViewModel", "sendQuiz: ${_answeredQuiz.value}")
+        viewModelScope.launch {
+            _answeredQuiz.let { answers ->
+                useCase.sendAnswers(answers).collect {
+                    _quizAnswerResult.value = it
+                }
+            }
+        }
     }
 
     private var textToSpeech: TextToSpeech? = null

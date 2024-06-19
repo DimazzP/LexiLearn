@@ -1,5 +1,7 @@
 package com.example.lexilearn.ui.views.pQuiz
 
+import DrawBox
+import android.graphics.Path
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -23,14 +26,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,6 +51,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.lexilearn.R
 import com.example.lexilearn.data.lib.ApiResponse
 import com.example.lexilearn.domain.quiz.model.QuizModel
+import com.example.lexilearn.ui.components.AutoSizeText
 import com.example.lexilearn.ui.components.ButtonNext
 import com.example.lexilearn.ui.components.CardQuiz
 import com.example.lexilearn.ui.components.GradientQuiz
@@ -50,6 +60,7 @@ import com.example.lexilearn.ui.components.LottieProgressDialog
 import com.example.lexilearn.ui.components.MyShadowCard
 import com.example.lexilearn.ui.theme.cGreen
 import com.example.lexilearn.ui.theme.ctextBlack
+import com.example.lexilearn.ui.theme.ctextGray
 import com.example.lexilearn.ui.theme.ctextWhite
 import com.example.lexilearn.ui.theme.cwhite
 import com.example.lexilearn.util.ConstVar
@@ -62,6 +73,7 @@ fun QuizScreen(
     viewModel: QuizViewModel = koinViewModel()
 ) {
     val quiz = viewModel.quiz.observeAsState()
+    val quizResult = viewModel.quizAnswerResult.observeAsState()
     val context = LocalContext.current
 
     LaunchedEffect(true) {
@@ -79,6 +91,28 @@ fun QuizScreen(
                 }
             }
         }
+    }
+
+    LaunchedEffect(quizResult.value) {
+        quizResult.value?.let {
+            when (it) {
+                ApiResponse.Loading -> viewModel.showLoading = true
+                is ApiResponse.Success -> {
+                    viewModel.showLoading = false
+                    val result = it.data.score.split("/")
+                    val score = result[0].toInt()
+                    val totalQuiz = result[1].toInt()
+                    navController.navigate("resultquiz/${it.data.score}") {
+                        popUpTo("quiz") { inclusive = true }
+                    }
+                }
+                is ApiResponse.Error -> {
+                    viewModel.showLoading = false
+                    Toast.makeText(context, it.errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        
     }
 
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
@@ -146,11 +180,6 @@ fun QuizScreen(
                                         choice = viewModel.selectedChoice,
                                         send = lastQuiz
                                     )
-                                    if (lastQuiz) {
-                                        navController.navigate("home") {
-                                            popUpTo("quiz") { inclusive = true }
-                                        }
-                                    }
                                 }
                             },
                             text = stringResource(if (viewModel.quizState == it.data.size - 1) R.string.submit else R.string.next),

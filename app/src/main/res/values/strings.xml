@@ -65,4 +65,6 @@
 
     <string name="answered_quiz_counter">You have answered %1$d out of %2$d questions.</string>
     <string name="submit">Kirim</string>
+    <string name="quiz_score">Quiz Skor</string>
+    <string name="resquiztitle">Hasil Kuis</string>
 </resources>

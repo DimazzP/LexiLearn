@@ -10,8 +10,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
@@ -27,14 +30,23 @@ import com.example.lexilearn.ui.theme.ctextGray
 @Composable
 fun DrawBox(
     modifier: Modifier = Modifier,
-    onPathReady: (android.graphics.Path, androidx.compose.ui.geometry.Size) -> Unit
+    onPathReady: (android.graphics.Path, androidx.compose.ui.geometry.Size) -> Unit,
+    clearPath: Boolean,
+    onClearPathHandled: () -> Unit
 ) {
     var path by remember { mutableStateOf(Path()) }
     var androidPath by remember { mutableStateOf(android.graphics.Path()) }
     var canvasSize by remember { mutableStateOf(androidx.compose.ui.geometry.Size.Zero) }
 
+    if (clearPath) {
+        path = Path()
+        androidPath = android.graphics.Path()
+        onClearPathHandled()
+    }
+
     Canvas(
-        modifier = modifier.background(cGray, shape = RoundedCornerShape(16.dp))
+        modifier = modifier
+            .background(cGray, shape = RoundedCornerShape(16.dp))
             .onGloballyPositioned { coordinates ->
                 canvasSize = coordinates.size.toSize()
             }
@@ -50,11 +62,13 @@ fun DrawBox(
                 })
             }
     ) {
-        drawPath(
-            path = path,
-            color = Color.Black,
-            style = Stroke(width = 5f, cap = StrokeCap.Round, join = StrokeJoin.Round)
-        )
+        clipPath(Path().apply { addRect(Rect(Offset.Zero, size)) }) {
+            drawPath(
+                path = path,
+                color = Color.Black,
+                style = Stroke(width = 5f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+            )
+        }
     }
 
     onPathReady(androidPath, canvasSize)
@@ -67,10 +81,15 @@ fun DrawBoxPreview() {
     var drawnPath: android.graphics.Path? = null
     var drawnSize: androidx.compose.ui.geometry.Size? = null
 
-    DrawBox(modifier = Modifier.size(200.dp)) { path, size ->
-        drawnPath = path
-        drawnSize = size
-    }
+    DrawBox(
+        modifier = Modifier.size(300.dp),
+        onPathReady = { path, size ->
+            drawnPath = path
+            drawnSize = size
+        },
+        clearPath = false,
+        onClearPathHandled = {}
+    )
 
     // Simulate drawing on the canvas
     if (drawnPath != null && drawnSize != null) {

@@ -19,6 +19,7 @@ import com.example.lexilearn.ui.views.pLogin.LoginScreen
 import com.example.lexilearn.ui.views.pQuiz.QuizScreen
 //import com.example.lexilearn.ui.views.pQuiz.pRead.DragAndDropExample
 import com.example.lexilearn.ui.views.pRegister.RegisterScreen
+import com.example.lexilearn.ui.views.pResultQuiz.ResultQuizScreen
 import com.example.lexilearn.ui.views.pResultScreening.ResultScreeningScreen
 import com.example.lexilearn.ui.views.pScreening.ScreeningScreen
 import com.example.lexilearn.ui.views.pSplashcreen.SplashScreen
@@ -42,6 +43,21 @@ fun MyApp() {
         composable("register") { RegisterScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("quiz") { QuizScreen(navController)}
+        composable(
+            "resultquiz/{score}/{quiz}",
+            listOf(
+                navArgument("score") {
+                    type = NavType.StringType
+                },
+                navArgument("quiz") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val score = it.arguments?.getString("score")
+            val quiz = it.arguments?.getString("quiz")
+            ResultQuizScreen(navController, score!!, quiz!!)
+        }
         composable("screening"){ ScreeningScreen(navController) }
         composable(
             "resultscreening/{result}",
