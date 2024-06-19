@@ -10,4 +10,7 @@ object ConstVar {
     const val USER_EMAIL: String = "user_email"
     const val USER_PHOTO: String = "user_photo"
     const val USER_CREATED_AT: String = "user_created_at"
+
+    const val SPEED_1: Float = 1.0f
+    const val SPEED_0_5: Float = 0.5f
 }

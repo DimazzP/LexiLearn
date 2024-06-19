@@ -68,6 +68,10 @@
     <string name="password_min_8_characters">Kata sandi minimal 8 karakter</string>
     <string name="invalid_email">Email tidak valid</string>
     <string name="please_answer_all_questions">Harap jawab semua pertanyaan</string>
+    <string name="answered_quiz_counter">You have answered %1$d out of %2$d questions.</string>
+    <string name="submit">Kirim</string>
+    <string name="quiz_score">Quiz Skor</string>
+    <string name="resquiztitle">Hasil Kuis</string>
     <string name="verylowDyslexia">Very low chance of dyslexia.</string>
     <string name="lowDyslexia">Low probability of dyslexia.</string>
     <string name="moderateDyslexia">Moderate dyslexia likely. It is recommended to consult an expert.</string>

@@ -20,4 +20,5 @@ val caccent = Color(0xFFFFB337)
 val ctransTextWhite = Color(0x99F4F4F4)
 val cbackground = Color(0xFFEEEDFA)
 val cGray = Color(0xFFEEEDFA)
+val cGreen = Color(0xFF66AD66)
 
