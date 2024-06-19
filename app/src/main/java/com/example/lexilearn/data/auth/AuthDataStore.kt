@@ -1,8 +1,11 @@
 package com.example.lexilearn.data.auth
 
 import android.content.Context
+import android.util.Log
 import com.example.lexilearn.R
 import com.example.lexilearn.data.auth.dto.LoginRequest
+import com.example.lexilearn.data.auth.dto.PasswordRequest
+import com.example.lexilearn.data.auth.dto.ProfileRequest
 import com.example.lexilearn.data.auth.dto.RegisterRequest
 import com.example.lexilearn.data.auth.model.AuthResponse
 import com.example.lexilearn.data.auth.remote.AuthService
@@ -28,18 +31,14 @@ class AuthDataStore(
             val payload = LoginRequest(email, password)
             val authData = authService.login(payload)
 
-            if (authData.code == 200) {
-                val userData = authData.data
-                val user = userData?.user?.toDomain()
+            val userData = authData.data
+            val user = userData?.user?.toDomain()
 
-                preferenceManager.setLoginPref(userData!!)
+            preferenceManager.setLoginPref(userData!!)
 
-                KoinModules.reloadModule()
+            KoinModules.reloadModule()
 
-                emit(ApiResponse.Success(user!!))
-            } else {
-                emit(ApiResponse.Error(authData.message))
-            }
+            emit(ApiResponse.Success(user!!))
         } catch (e: Exception) {
             emit(e.toApiResponse(context))
         }
@@ -51,11 +50,41 @@ class AuthDataStore(
             val payload = RegisterRequest(name, email, password)
             val authData = authService.register(payload)
 
-            if (authData.code == 201) {
-                emit(ApiResponse.Success(authData.message))
-            } else {
-                emit(ApiResponse.Error(authData.message))
-            }
+            emit(ApiResponse.Success(authData.message))
+        } catch(e: Exception) {
+            emit(e.toApiResponse(context))
+        }
+    }
+
+    override fun updateProfile(name: String, confirm_password: String): Flow<ApiResponse<User>> = flow{
+        try {
+            emit(ApiResponse.Loading)
+            val payload = ProfileRequest(name, confirm_password)
+            val authData = authService.updateProfile(payload)
+
+            val userData = authData.data
+            val user = userData
+
+            preferenceManager.setUserPref(user!!)
+
+            KoinModules.reloadModule()
+
+            emit(ApiResponse.Success(user))
+        } catch(e: Exception) {
+            emit(e.toApiResponse(context))
+        }
+    }
+
+    override fun updatePassword(
+        current_password: String,
+        new_password: String,
+        confirm_password: String
+    ): Flow<ApiResponse<String>> = flow{
+        try {
+            emit(ApiResponse.Loading)
+            val payload = PasswordRequest(current_password, new_password, confirm_password)
+            val authData = authService.changePassword(payload)
+            emit(ApiResponse.Success(authData.message))
         } catch(e: Exception) {
             emit(e.toApiResponse(context))
         }
@@ -70,7 +99,7 @@ class AuthDataStore(
             preferenceManager.setUserPref(user)
 
             KoinModules.reloadModule()
-            
+
             emit(ApiResponse.Success(user))
         } catch (e: Exception) {
             emit(e.toApiResponse(context))

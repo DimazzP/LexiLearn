@@ -1,4 +1,5 @@
 package com.example.lexilearn.ui.components
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +21,14 @@ import androidx.compose.ui.unit.dp
 import com.example.lexilearn.R
 
 @Composable
-fun PasswordTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> Unit, modifier: Modifier = Modifier) {
+fun PasswordTextField(
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    modifier: Modifier = Modifier,
+    textPassword: String = stringResource(
+        id = R.string.password
+    )
+) {
     var passwordVisibility by remember { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -33,7 +41,9 @@ fun PasswordTextField(value: TextFieldValue, onValueChange: (TextFieldValue) -> 
                 tint = Color.Gray
             )
         },
-        placeholder = { Text(text = stringResource(id = R.string.password)) },
+        maxLines = 1,
+        singleLine = true,
+        placeholder = { Text(text = textPassword) },
         shape = RoundedCornerShape(8.dp),
         visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
         trailingIcon = {

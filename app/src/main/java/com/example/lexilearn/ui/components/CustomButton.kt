@@ -34,7 +34,7 @@ fun CustomButton(
         modifier = modifier
             .border(2.dp, caccent, RoundedCornerShape(12.dp)) // Border color and shape
             .background(caccent, RoundedCornerShape(12.dp)) // Background color and shape
-            .padding(8.dp) // Padding inside the button
+            .padding(4.dp) // Padding inside the button
     ) {
         Text(
             text = text,

@@ -5,6 +5,7 @@ import com.example.lexilearn.data.auth.AuthRepository
 import com.example.lexilearn.domain.auth.AuthInteractor
 import com.example.lexilearn.domain.auth.AuthUseCase
 import com.example.lexilearn.ui.views.pLogin.LoginViewModel
+import com.example.lexilearn.ui.views.pProfile.ProfileViewModel
 import com.example.lexilearn.ui.views.pRegister.RegisterViewModel
 import com.example.lexilearn.ui.views.pSplashcreen.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,4 +21,5 @@ val authModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { SplashViewModel(get()) }
+    viewModel { ProfileViewModel(get()) }
 }

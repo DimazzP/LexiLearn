@@ -12,3 +12,4 @@ fun UserResponse.toDomain(): User {
         createdAt = this.createdAt
     )
 }
+
