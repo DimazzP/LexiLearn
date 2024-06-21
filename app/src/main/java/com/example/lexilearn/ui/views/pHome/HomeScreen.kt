@@ -2,6 +2,8 @@ package com.example.lexilearn.ui.views.pHome
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -17,6 +20,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -67,6 +74,7 @@ fun HomeScreen(
             .fillMaxSize()
             .background(cbackground)
     ) {
+
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
@@ -116,158 +124,181 @@ fun HomeScreen(
                 )
             }
         }
-        Column(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(scrollState)
+                .fillMaxSize()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(Color(0xFF6A69DB), Color(0xFF9B79F1)),
+                        start = Offset(0f, 0f),
+                        end = Offset(
+                            Float.POSITIVE_INFINITY,
+                            Float.POSITIVE_INFINITY
+                        )
+                    )
+                )
         ) {
-            MyCard(
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .width(150.dp)
+                    .height(80.dp)
+                    .align(alignment = Alignment.TopEnd)
+                    .clip(shape = RoundedCornerShape(bottomStart = 30.dp))
+                    .background(Color(0x1AEEEDFA)) // Warna transparan 10% #EEEDFA
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Center
             ) {
-                Column(
+//            MyCard(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            ) {
+//                Column(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(12.dp)
+//                ) {
+//                    Text(
+//                        text = stringResource(id = R.string.homeprogress),
+//                        color = cprimary,
+//                        fontSize = 14.sp,
+//                        fontWeight = FontWeight.SemiBold,
+//                        modifier = Modifier.align(Alignment.End)
+//                    )
+//                    val points = listOf(
+//                        LineChartData.Point(1f, "Sun"),
+//                        LineChartData.Point(2f, "Mon"),
+//                        LineChartData.Point(1f, "Tue"),
+//                        LineChartData.Point(7f, "Wed"),
+//                        LineChartData.Point(4f, "Thu"),
+//                        LineChartData.Point(6f, "Fri"),
+//                        LineChartData.Point(9f, "Sat")
+//                    )
+//
+//                    val lineData = remember {
+//                        LineChartData(
+//                            points = points,
+//                            lineDrawer = SolidLineDrawer(2.dp, cprimary)
+//                        )
+//                    }
+//                    LineChart(
+//                        linesChartData = listOf(lineData),
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(220.dp),
+//                        animation = simpleChartAnimation(),
+//                        pointDrawer = FilledCircularPointDrawer(),
+//                        horizontalOffset = 1f,
+//                    )
+//                }
+//            }
+                ConstraintLayout(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(12.dp)
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.homeprogress),
-                        color = cprimary,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.align(Alignment.End)
-                    )
-                    val points = listOf(
-                        LineChartData.Point(1f, "Sun"),
-                        LineChartData.Point(2f, "Mon"),
-                        LineChartData.Point(1f, "Tue"),
-                        LineChartData.Point(7f, "Wed"),
-                        LineChartData.Point(4f, "Thu"),
-                        LineChartData.Point(6f, "Fri"),
-                        LineChartData.Point(9f, "Sat")
-                    )
-
-                    val lineData = remember {
-                        LineChartData(
-                            points = points,
-                            lineDrawer = SolidLineDrawer(2.dp, cprimary)
-                        )
+                    val (quizRef, alphabetRef, screeningRef, newsRef) = createRefs()
+                    ButtonHome(onClick = { navController.navigate("quiz") }, modifier = Modifier
+                        .constrainAs(quizRef) {
+                            start.linkTo(parent.start)
+                            top.linkTo(parent.top)
+                            width = Dimension.percent(0.5f)
+                        }) {
+                        Column(modifier = Modifier.padding(vertical = 10.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_quiz),
+                                contentDescription = null,
+                                alignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 12.dp)
+                            )
+                            Text(
+                                text = stringResource(id = R.string.homequiz),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth(),
+                                color = ctextBlack
+                            )
+                        }
                     }
-                    LineChart(
-                        linesChartData = listOf(lineData),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(220.dp),
-                        animation = simpleChartAnimation(),
-                        pointDrawer = FilledCircularPointDrawer(),
-                        horizontalOffset = 1f,
-                    )
-                }
-            }
-            ConstraintLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                val (quizRef, alphabetRef, screeningRef, newsRef) = createRefs()
-                ButtonHome(onClick = { navController.navigate("quiz") }, modifier = Modifier
-                    .constrainAs(quizRef) {
-                        start.linkTo(parent.start)
-                        top.linkTo(parent.top)
-                        width = Dimension.percent(0.5f)
-                    }) {
-                    Column(modifier = Modifier.padding(vertical = 10.dp)) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_quiz),
-                            contentDescription = null,
-                            alignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 12.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.homequiz),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = ctextBlack
-                        )
+                    ButtonHome(onClick = { navController.navigate("alphabet") }, modifier = Modifier
+                        .constrainAs(alphabetRef) {
+                            top.linkTo(parent.top)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(quizRef.bottom)
+                            width = Dimension.percent(0.5f)
+                        }) {
+                        Column(modifier = Modifier.padding(vertical = 10.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_alphabet),
+                                contentDescription = null,
+                                alignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 12.dp)
+                            )
+                            Text(
+                                text = stringResource(id = R.string.homealphabet),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth(),
+                                color = ctextBlack
+                            )
+                        }
                     }
-                }
-                ButtonHome(onClick = { navController.navigate("alphabet") }, modifier = Modifier
-                    .constrainAs(alphabetRef) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(quizRef.bottom)
-                        width = Dimension.percent(0.5f)
-                    }) {
-                    Column(modifier = Modifier.padding(vertical = 10.dp)) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_alphabet),
-                            contentDescription = null,
-                            alignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 12.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.homealphabet),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = ctextBlack
-                        )
+                    ButtonHome(onClick = { navController.navigate("screening") }, modifier = Modifier
+                        .constrainAs(screeningRef) {
+                            top.linkTo(quizRef.bottom)
+                            start.linkTo(quizRef.start)
+                            width = Dimension.percent(0.5f)
+                        }) {
+                        Column(modifier = Modifier.padding(vertical = 10.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_test),
+                                contentDescription = null,
+                                alignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 12.dp)
+                            )
+                            AutoSizeText(
+                                text = stringResource(id = R.string.homescreening),
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth(),
+                                color = ctextBlack,
+                                maxLines = 1
+                            )
+                        }
                     }
-                }
-                ButtonHome(onClick = { navController.navigate("screening") }, modifier = Modifier
-                    .constrainAs(screeningRef) {
-                        top.linkTo(quizRef.bottom)
-                        start.linkTo(quizRef.start)
-                        width = Dimension.percent(0.5f)
-                    }) {
-                    Column(modifier = Modifier.padding(vertical = 10.dp)) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_test),
-                            contentDescription = null,
-                            alignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 12.dp)
-                        )
-                        AutoSizeText(
-                            text = stringResource(id = R.string.homescreening),
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = ctextBlack,
-                            maxLines = 1
-                        )
-                    }
-                }
-                ButtonHome(onClick = { }, modifier = Modifier
-                    .constrainAs(newsRef) {
-                        top.linkTo(quizRef.bottom)
-                        end.linkTo(parent.end)
-                        width = Dimension.percent(0.5f)
-                    }) {
-                    Column(modifier = Modifier.padding(vertical = 10.dp)) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_news),
-                            contentDescription = null,
-                            alignment = Alignment.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 12.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.homenews),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                            color = ctextBlack
-                        )
+                    ButtonHome(onClick = { navController.navigate("news") }, modifier = Modifier
+                        .constrainAs(newsRef) {
+                            top.linkTo(quizRef.bottom)
+                            end.linkTo(parent.end)
+                            width = Dimension.percent(0.5f)
+                        }) {
+                        Column(modifier = Modifier.padding(vertical = 10.dp)) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_news),
+                                contentDescription = null,
+                                alignment = Alignment.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 12.dp)
+                            )
+                            Text(
+                                text = stringResource(id = R.string.homenews),
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth(),
+                                color = ctextBlack
+                            )
+                        }
                     }
                 }
             }

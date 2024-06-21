@@ -61,6 +61,10 @@
     <string name="btn_change_password">Ubah Kata Sandi</string>
     <string name="btn_logout">Keluar</string>
 
+<!--    news-->
+    <string name="news">Berita Disleksia</string>
+    <string name="detail_news">Detail Berita</string>
+
 <!--    Error Message -->
     <string name="unknown_error">Unknown error</string>
     <string name="email_and_password_must_be_filled">Email dan password tidak boleh kosong</string>

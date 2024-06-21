@@ -36,6 +36,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_KEY", "\"Bearer b6fe91a0d544482b94b89751a58a7f8e\"")
+            buildConfigField("String", "BASE_URL", "\"https://newsapi.org/\"")
+        }
+        debug {
+            buildConfigField("String", "API_KEY", "\"Bearer b6fe91a0d544482b94b89751a58a7f8e\"")
+            buildConfigField("String", "BASE_URL", "\"https://newsapi.org/\"")
         }
     }
     compileOptions {
@@ -79,6 +85,7 @@ dependencies {
     implementation ("com.airbnb.android:lottie-compose:4.0.0")
     implementation("com.google.accompanist:accompanist-flowlayout:0.24.9-beta")
     implementation("com.airbnb.android:lottie-compose:4.0.0")
+    implementation ("io.coil-kt:coil-compose:2.0.0")
     implementation("com.google.accompanist:accompanist-placeholder:0.24.13-rc")
 //    implementation("com.google.accompanist:accompanist-navigation-material:0.24.13-rc")
     implementation("io.coil-kt:coil-compose:2.1.0")

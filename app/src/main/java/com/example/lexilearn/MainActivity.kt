@@ -7,15 +7,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.lexilearn.data.news.model.deserializeArticle
 import com.example.lexilearn.domain.screening.model.ScreeningAnswerModel
 import com.example.lexilearn.ui.views.pAlphabet.AlphabetScreen
+import com.example.lexilearn.ui.views.pDetailNews.NewsDetailScreen
 import com.example.lexilearn.ui.views.pHome.HomeScreen
 import com.example.lexilearn.ui.views.pLogin.LoginScreen
+import com.example.lexilearn.ui.views.pNews.NewsScreen
 import com.example.lexilearn.ui.views.pProfile.ProfileScreen
 import com.example.lexilearn.ui.views.pQuiz.QuizScreen
 //import com.example.lexilearn.ui.views.pQuiz.pRead.DragAndDropExample
@@ -36,7 +40,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp() {
+fun MyApp(sharedViewModel: SharedViewModel = viewModel()) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "splash") {
         composable("splash") { SplashScreen(navController) }
@@ -44,6 +48,8 @@ fun MyApp() {
         composable("register") { RegisterScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("quiz") { QuizScreen(navController)}
+        composable("news") { NewsScreen(navController, sharedViewModel) }
+        composable("detail_news") { NewsDetailScreen(navController, sharedViewModel) }
         composable(
             "resultquiz/{score}/{quiz}",
             listOf(

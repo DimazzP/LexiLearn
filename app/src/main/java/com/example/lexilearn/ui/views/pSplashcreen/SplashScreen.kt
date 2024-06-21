@@ -1,7 +1,5 @@
 package com.example.lexilearn.ui.views.pSplashcreen
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

@@ -13,7 +13,8 @@ val koinModule = listOf(
     authModule,
     screeningModule,
     quizFeature,
-    alphabetFeature
+    alphabetFeature,
+//    newsModule
 )
 
 object KoinModules {
